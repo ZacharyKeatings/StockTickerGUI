@@ -1,0 +1,1 @@
+# C:/Users/zacha/Envs/StockTickerGUI/Scripts/Activate.ps1 - venv location
