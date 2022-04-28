@@ -1,0 +1,13 @@
+#1. main menu - start game button, about page button, exit button ***(add save and highscore list organized by rounds played)***
+
+#2. about page - label with game description
+
+#3. exit - exit() command to close window, bring up confirmation prompt window
+
+# start game (setup):
+    #4. choose number of players - label, input box
+    #5. choose player names - label, input box
+    #6. choose rounds - label, input box
+        #7. setup round - game screen, 3 frames: player stats, graph, player options
+        #8. game screen - 4 frames: player stats, graph, dice roll, player options
+            #9. game finished screen - 3 frames: winner, all players ranked, buttons: main menu, 
