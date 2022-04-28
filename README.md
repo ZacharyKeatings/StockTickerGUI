@@ -27,5 +27,3 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 #### Inspiration:
 
 This is based on the now out of print board game, Stock Ticker, published by Copp Clark Publishing Company.
-
-![Visitor Count](https://profile-counter.glitch.me/ZacharyKeatings/count.svg)
