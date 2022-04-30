@@ -7,12 +7,13 @@ The object of the game is to buy and sell stocks, and by so doing accumulate a g
 
 #### Features:
 
-* Absolutely functionless at the moment.
+* You can only switch between the 'Main Menu' and the 'About' page.
+* The 'Quit' button closes the program.
 
 #### Project Status:
 
 This is an ongoing project which will be updated as I learn more about Tkinter.
-This is a GUI version of the console-based Stock Ticker which can be found in the Stock-Ticker repo.
+This is a GUI version of the console-based Stock Ticker which can be found in the [Stock-Ticker repo](https://github.com/ZacharyKeatings/Stock-Ticker).
 
 #### To-Do:
 
