@@ -88,31 +88,33 @@ class NewGame(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
+
 
         tk.Label(
             master = self, 
             text="New game", 
             bg="green" 
-        ).grid(row=0, column=0, columnspan=2, sticky='new')
+        ).grid(row=0, column=1, sticky='new')
         tk.Label(
             master = self, 
             text="Please choose the number of players:", 
             bg="green"
-        ).grid(row=1, column=0, sticky='n')
+        ).grid(row=1, column=1, sticky='nw')
         tk.Entry(
             master = self, 
             text="test text"
-        ).grid(row=1, column=1, sticky='n')
+        ).grid(row=1, column=1, sticky='ne')
         tk.Button(
             master = self, 
             text="Main Menu", 
             command = self.parent.switch_to_main_menu
-        ).grid(row=2, column=0, columnspan=2, sticky="sew")
+        ).grid(row=2, column=0, columnspan=3, sticky="sew")
         tk.Button(
             master = self, 
             text="Quit", 
             command=lambda : exit()
-        ).grid(row=3, column=0, columnspan=2, sticky="sew")
+        ).grid(row=3, column=0, columnspan=3, sticky="sew")
 
 class AboutPage(tk.Frame):
  
@@ -131,7 +133,8 @@ class AboutPage(tk.Frame):
         tk.Label(
             master = self, 
             text="The object of the game is to buy and sell stocks,\n and by so doing accumulate a greater amount of \n money than the other players. The winner is decided\n by setting a time limit at the start of the game, \n and is the person having the greatest amount of money\n when time elapses, after selling his stocks back to \nthe Broker at their final market value.",
-            font=("Arial", 16) 
+            bg="green",
+            font=("Arial", 12) 
         ).grid(row=1, column=0, sticky='new')
         tk.Button(
             master = self, 
