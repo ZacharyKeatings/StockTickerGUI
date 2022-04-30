@@ -84,24 +84,25 @@ class NewGame(tk.Frame):
     def __init__(self, parent: MainWindow):
         tk.Frame.__init__(self, master = parent, bg="green")
         self.parent = parent
+        self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
+        self.grid_columnconfigure(1, weight=1)
 
         tk.Label(
             master = self, 
             text="New game", 
             bg="green" 
-        ).grid(row=0, column=0, sticky='new')
+        ).grid(row=0, column=0, columnspan=2, sticky='new')
         tk.Label(
             master = self, 
             text="Please choose the number of players:", 
             bg="green"
-        ).grid(row=1, column=0, sticky='new')
-        tk.Label(
+        ).grid(row=1, column=0, sticky='n')
+        tk.Entry(
             master = self, 
-            text="test text",
-            font=("Arial", 16) 
-        ).grid(row=1, column=1, sticky='new')
+            text="test text"
+        ).grid(row=1, column=1, sticky='n')
         tk.Button(
             master = self, 
             text="Main Menu", 
