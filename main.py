@@ -7,9 +7,6 @@ class MainWindow(tk.Tk):
     This is your main window
     """
     def __init__(self):
-        # any arguments you would pass to
-        # window = tk.Tk() go here. This call
-        # does the set up necessary for a Tk object
         tk.Tk.__init__(self)
         self.title("Stock Ticker")
         self.geometry("600x400")
@@ -35,10 +32,6 @@ class MainMenu(tk.Frame):
         self.parent = parent
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
-        # self.grid_rowconfigure(1, weight=1)
-        # self.grid_columnconfigure(1, weight=1)
-        # self.grid_rowconfigure(2, weight=1)
-        # self.grid_columnconfigure(2, weight=1)
         
         tk.Label(
             master = self, 
