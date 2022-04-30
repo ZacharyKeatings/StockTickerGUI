@@ -1,44 +1,93 @@
+import sys
 import tkinter as tk
-from tkinter import *
-# C:/Users/zacha/Envs/StockTickerGUI/Scripts/Activate.ps1 - venv location
 
-#Root window
-WIDTH = 600
-HEIGHT = 400
-root = Tk()
-root.title("Stock Ticker")
-root.geometry(f"{WIDTH}x{HEIGHT}")
-root.iconbitmap('./images/icon.ico')
 
-def show_frame(frame):
-    frame.pack(expand=1, fill="both")
-    #frame.tkraise()
+class MainWindow(tk.Tk):
+    """
+    This is your main window
+    """
+    def __init__(self):
+        # any arguments you would pass to
+        # window = tk.Tk() go here. This call
+        # does the set up necessary for a Tk object
+        tk.Tk.__init__(self)
+        self.title("Stock Ticker")
+        self.geometry("600x400")
+        self.iconbitmap("./images/icon.ico")
+        MainMenu(parent = self).pack(fill="both", expand="true")
 
-def hide_frame(frame):
-    frame.pack_forget()
-    #frame.lower()
+    def switch_to_main_menu(self):
+        self.clear()
+        MainMenu(parent = self).pack(fill="both", expand="true")
 
-#Frames
-main_frame = Frame(root, bg="green")
-about_frame = Frame(root, bg="blue")
-init_game_frame = Frame(root, bg="yellow")
-num_players_frame = Frame(init_game_frame, bg="red")
-name_players_frame = Frame(init_game_frame, bg="purple")
-num_rounds_frame = Frame(init_game_frame, bg="orange")
-game_frame = Frame(root, bg="brown")
-setup_game_frame = Frame(root, bg="white")
-endgame_frame = Frame(root, bg="pink")
+    def switch_to_about_page(self):
+        self.clear()
+        AboutPage(parent = self).pack(fill="both", expand="true")
 
-main_frame.pack(expand=1, fill="both")
+    def clear(self):
+        for widget in self.winfo_children():
+            widget.destroy()
 
-main_title = Label(main_frame, text="this is the main page")
-about_button = Button(main_frame, text="about", command=lambda : [show_frame(about_frame), hide_frame(main_frame)])
-main_title.pack()
-about_button.pack()
+class MainMenu(tk.Frame):
 
-about_title = Label(about_frame, text="This is the about page")
-main_menu_button = Button(about_frame, text="main menu", command=lambda : [show_frame(main_frame), hide_frame(about_frame)])
-about_title.pack()
-main_menu_button.pack()
+    def __init__(self, parent: MainWindow):
+        tk.Frame.__init__(self, master = parent, bg="green")
+        self.parent = parent
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        # self.grid_rowconfigure(1, weight=1)
+        # self.grid_columnconfigure(1, weight=1)
+        # self.grid_rowconfigure(2, weight=1)
+        # self.grid_columnconfigure(2, weight=1)
+        
+        tk.Label(
+            master = self, 
+            text="this is the main menu"           
+        ).grid(row=0, column=0, columnspan=2, sticky="new")
+        tk.Button(
+            master = self, 
+            text="About",
+            command = self.parent.switch_to_about_page
+        ).grid(row=1, column=0, columnspan=2, sticky="sew")
+        tk.Button(
+            master = self, 
+            text="Quit", 
+            command=lambda : exit()
+        ).grid(row=2, column=0, columnspan=2, sticky='sew')
 
-root.mainloop()
+class AboutPage(tk.Frame):
+ 
+    def __init__(self, parent: MainWindow):
+        tk.Frame.__init__(self, master = parent, bg="blue")
+        self.parent = parent
+        self.grid_rowconfigure(0, weight=0)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=0)
+        self.grid_rowconfigure(3, weight=0)
+
+        tk.Label(
+            master = self, 
+            text="About Stock Ticker", 
+            bg="purple"
+        ).grid(row=0, column=0, sticky='new')
+        tk.Label(
+            master = self, 
+            text="The object of the game is to buy and sell stocks,\n and by so doing accumulate a greater amount of \n money than the other players. The winner is decided\n by setting a time limit at the start of the game, \n and is the person having the greatest amount of money\n when time elapses, after selling his stocks back to \nthe Broker at their final market value."
+        ).grid(row=1, column=0, sticky='new')
+        tk.Button(
+            master = self, 
+            text="Main Menu", 
+            command = self.parent.switch_to_main_menu
+        ).grid(row=2, column=0, columnspan=2, sticky="sew")
+        tk.Button(
+            master = self, 
+            text="Quit", 
+            command=lambda : exit()
+        ).grid(row=3, column=0, columnspan=2, sticky="sew")
+
+def main():
+    return MainWindow().mainloop()
+
+if __name__ == '__main__':
+    sys.exit(main())
