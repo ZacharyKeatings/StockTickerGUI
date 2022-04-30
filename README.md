@@ -13,7 +13,7 @@ The object of the game is to buy and sell stocks, and by so doing accumulate a g
 #### Project Status:
 
 This is an ongoing project which will be updated as I learn more about Tkinter.
-This is a GUI version of the console-based Stock Ticker which can be found in the [Stock-Ticker repo](../Stock-Ticker).
+This is a GUI version of the console-based Stock Ticker which can be found in the [Stock-Ticker repo](https://github.com/ZacharyKeatings/Stock-Ticker).
 
 #### To-Do:
 
