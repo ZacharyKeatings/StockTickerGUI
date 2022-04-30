@@ -21,6 +21,10 @@ class MainWindow(tk.Tk):
         self.clear()
         AboutPage(parent = self).pack(fill="both", expand="true")
 
+    # def switch_to_start_game(self):
+    #     self.clear()
+    #     AboutPage(parent = self).pack(fill="both", expand="true")
+
     def clear(self):
         for widget in self.winfo_children():
             widget.destroy()
@@ -35,7 +39,9 @@ class MainMenu(tk.Frame):
         
         tk.Label(
             master = self, 
-            text="this is the main menu"           
+            text="STOCK TICKER",
+            bg="green",
+            font=("Arial", 50)     
         ).grid(row=0, column=0, columnspan=2, sticky="new")
         tk.Button(
             master = self, 
@@ -44,14 +50,26 @@ class MainMenu(tk.Frame):
         ).grid(row=1, column=0, columnspan=2, sticky="sew")
         tk.Button(
             master = self, 
+            text="Load Game",
+            command = self.parent.switch_to_about_page, ############
+            state = tk.DISABLED
+        ).grid(row=2, column=0, columnspan=2, sticky="sew")
+        tk.Button(
+            master = self, 
+            text="Highscores",
+            command = self.parent.switch_to_about_page, ############
+            state = tk.DISABLED
+        ).grid(row=3, column=0, columnspan=2, sticky="sew")
+        tk.Button(
+            master = self, 
             text="Quit", 
             command=lambda : exit()
-        ).grid(row=2, column=0, columnspan=2, sticky='sew')
+        ).grid(row=4, column=0, columnspan=2, sticky='sew')
 
 class AboutPage(tk.Frame):
  
     def __init__(self, parent: MainWindow):
-        tk.Frame.__init__(self, master = parent, bg="blue")
+        tk.Frame.__init__(self, master = parent, bg="green")
         self.parent = parent
         self.grid_rowconfigure(0, weight=0)
         self.grid_columnconfigure(0, weight=1)
@@ -62,11 +80,13 @@ class AboutPage(tk.Frame):
         tk.Label(
             master = self, 
             text="About Stock Ticker", 
-            bg="purple"
+            bg="green",
+            font=("Arial", 50) 
         ).grid(row=0, column=0, sticky='new')
         tk.Label(
             master = self, 
-            text="The object of the game is to buy and sell stocks,\n and by so doing accumulate a greater amount of \n money than the other players. The winner is decided\n by setting a time limit at the start of the game, \n and is the person having the greatest amount of money\n when time elapses, after selling his stocks back to \nthe Broker at their final market value."
+            text="The object of the game is to buy and sell stocks,\n and by so doing accumulate a greater amount of \n money than the other players. The winner is decided\n by setting a time limit at the start of the game, \n and is the person having the greatest amount of money\n when time elapses, after selling his stocks back to \nthe Broker at their final market value.",
+            font=("Arial", 16) 
         ).grid(row=1, column=0, sticky='new')
         tk.Button(
             master = self, 
