@@ -1,11 +1,9 @@
 import sys
 import tkinter as tk
-
+from tkinter import ttk
 
 class MainWindow(tk.Tk):
-    """
-    This is your main window
-    """
+
     def __init__(self):
         tk.Tk.__init__(self)
         self.title("Stock Ticker")
@@ -51,7 +49,7 @@ class MainMenu(tk.Frame):
             bg="green",
             font=("Arial", 50)     
         ).grid(row=0, column=0, columnspan=2, sticky="new")
-        tk.Button(
+        ttk.Button(
             master = self, 
             text="New Game",
             command = self.parent.switch_to_new_game
@@ -78,9 +76,14 @@ class MainMenu(tk.Frame):
             text="Quit", 
             command=lambda : exit()
         ).grid(row=5, column=0, columnspan=2, sticky='sew')
+        tk.Button(
+            master = self, 
+            text="Test Button", 
+            command=lambda : print(Game.num_players)
+        ).grid(row=6, column=0, columnspan=2, sticky='sew')
 
 class NewGame(tk.Frame):
- 
+
     def __init__(self, parent: MainWindow):
         tk.Frame.__init__(self, master = parent, bg="green")
         self.parent = parent
@@ -89,7 +92,8 @@ class NewGame(tk.Frame):
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
-
+        self.num_players = tk.IntVar()
+        self.num_rounds = tk.IntVar()
 
         tk.Label(
             master = self, 
@@ -101,10 +105,15 @@ class NewGame(tk.Frame):
             text="Please choose the number of players:", 
             bg="green"
         ).grid(row=1, column=1, sticky='nw')
-        tk.Entry(
-            master = self, 
-            text="test text"
+        ttk.Entry(
+            master = self,
+            textvariable = self.num_players
         ).grid(row=1, column=1, sticky='ne')
+        tk.Button(
+            master = self,
+            text = "Submit",
+            command = lambda : Game.set_players(self.num_players.get())
+        ).grid(row=1, column=1, sticky="ne")
         tk.Button(
             master = self, 
             text="Main Menu", 
@@ -117,7 +126,7 @@ class NewGame(tk.Frame):
         ).grid(row=3, column=0, columnspan=3, sticky="sew")
 
 class AboutPage(tk.Frame):
- 
+
     def __init__(self, parent: MainWindow):
         tk.Frame.__init__(self, master = parent, bg="green")
         self.parent = parent
@@ -146,6 +155,66 @@ class AboutPage(tk.Frame):
             text="Quit", 
             command=lambda : exit()
         ).grid(row=3, column=0, columnspan=2, sticky="sew")
+
+class Player():
+
+    players = []
+    
+    def __init__(self, name):
+        self.name = name
+        self.money = 5000
+        self.stocks = {
+            "Gold": 0,
+            "Silver": 0,
+            "Oil": 0,
+            "Bonds": 0,
+            "Grain": 0,
+            "Industrial": 0
+        }
+
+    def create_player(player_name):
+        new_player = Player(player_name)
+        Player.players.append(new_player)
+
+    def buy_stock(stock):
+        pass
+
+    def sell_stock(stock):
+        pass
+
+class Stock():
+
+    stock_value = {
+        "Gold": 100,
+        "Silver": 100,
+        "Oil": 100,
+        "Bonds": 100,
+        "Grain": 100,
+        "Industrial": 100
+    }
+    
+    def increase_value(stock):
+        pass
+
+    def decrease_value(stock):
+        pass
+
+    def double_stock(stock):
+        pass
+
+    def split_stock(stock):
+        pass
+
+class Game():
+
+    max_rounds = 0
+    num_players = 0
+
+    def set_players(players):
+        Game.num_players = players
+
+    def set_rounds(rounds):
+        Game.max_rounds = rounds
 
 def main():
     return MainWindow().mainloop()
