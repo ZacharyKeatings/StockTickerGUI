@@ -7,7 +7,9 @@ The object of the game is to buy and sell stocks, and by so doing accumulate a g
 
 #### Features:
 
-* You can only switch between the 'Main Menu' and the 'About' page.
+* Can choose number of players and number of rounds.
+* Players can be given custom names.
+* About page with short description of game.
 * The 'Quit' button closes the program.
 
 #### Project Status:
@@ -17,8 +19,7 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### To-Do:
 
-* Add main menu
-* Add About page
+* Add game setup screen
 * Add full game functionality
 * Add option to save game
 * Add option to load game
