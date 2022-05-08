@@ -186,6 +186,7 @@ class PlayerNamePage(tk.Frame):
         self.name_list = [self.p1_name, self.p2_name, self.p3_name, self.p4_name, self.p5_name, self.p6_name, self.p7_name, self.p8_name]
 
         def set_names():
+            Player.players.clear()
             for player_name in range(Game.num_players):
                 player = Player(name=self.name_list[player_name].get())
                 Player.players.append(player)
@@ -195,7 +196,7 @@ class PlayerNamePage(tk.Frame):
             self.grid_rowconfigure(num + 1, weight=1)
             tk.Label(master=self, text=f"Player {num + 1}:", bg="green").grid(row=num + 1, column=1, sticky="w")
             tk.Entry(master=self, textvariable=self.name_list[num]).grid(row=num + 1, column=1, sticky="e")
-            ttk.Button(master=self, text="Submit", command=set_names).grid(row=9, column=1, sticky="new")
+            ttk.Button(master=self, text="Submit", command=lambda : [set_names(), self.parent.switch_to(target=GameSetup(parent=self.parent))]).grid(row=9, column=1, sticky="new")
 
         tk.Label(
             master=self,
@@ -207,6 +208,34 @@ class PlayerNamePage(tk.Frame):
             master=self,
             text="Back",
             command=lambda: self.parent.switch_to(target=NewGame(parent=self.parent))
+        ).grid(row=9, column=0, columnspan=3, sticky="sew")
+        ttk.Button(
+            master=self,
+            text="Quit",
+            command=exit
+        ).grid(row=10, column=0, columnspan=3, sticky="sew")
+
+class GameSetup(tk.Frame):
+
+    def __init__(self, parent: MainWindow):
+        tk.Frame.__init__(self, master=parent, bg="green")
+        self.parent = parent
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(9, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
+
+        tk.Label(
+            master=self,
+            text="Game Setup round",
+            bg="green"
+        ).grid(row=0, column=1, sticky='new')
+
+        ttk.Button(
+            master=self,
+            text="Back",
+            command=lambda: self.parent.switch_to(target=PlayerNamePage(parent=self.parent))
         ).grid(row=9, column=0, columnspan=3, sticky="sew")
         ttk.Button(
             master=self,
