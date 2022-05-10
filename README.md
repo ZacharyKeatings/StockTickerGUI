@@ -19,12 +19,17 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### To-Do:
 
-* Add ability to buy/sell in game setup screen
+* Add ability to buy/sell in game setup page
 * Add full game functionality
 * Add option to save game
 * Add option to load game
 * Add highscore list organized by number of rounds played
 * Add networking option to allow self to play remotely together
+
+#### Known Bugs:
+
+* Names can be left blank
+* frames gets squished if there are 4 or more players in GameSetup page.
 
 #### Inspiration:
 
