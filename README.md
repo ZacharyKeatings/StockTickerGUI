@@ -19,7 +19,7 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### To-Do:
 
-* Add game setup screen
+* Add ability to buy/sell in game setup screen
 * Add full game functionality
 * Add option to save game
 * Add option to load game
