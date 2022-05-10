@@ -21,7 +21,7 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 * Add ability to buy/sell in game setup page
 * Add main game page
-* Copy most of game setup page code to main game page, and add round tracker and line graph to show current stock prices
+* Copy most of game setup page code to main game page, and add round tracker and line graph to show current stock prices. Add dice roll.
 * Add option to save game
 * Add option to load game
 * Add highscore list organized by number of rounds played
