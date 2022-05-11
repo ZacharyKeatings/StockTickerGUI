@@ -29,9 +29,10 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### Things To Fix:
 
-* Names can be left blank in player name page
+* Player name page: Names can be left blank
 * Overall design needs sprucing up
-* About page needs improvement
+* About page: Needs improvement
+* Game setup page: Fix buy Gold IntVar assignment and complete rest of navigation
 
 #### Inspiration:
 
