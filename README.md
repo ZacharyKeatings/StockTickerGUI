@@ -20,8 +20,6 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### To-Do:
 
-* Game Setup Page: After iterating through players one time, move onto Main Game Page
-* Main Game Page: Create, based on Game Setup Page
 * Main Game Page: Add notification bar
 * Main Game Page: Add round tracker
 * Main Game Page: Add dice roll
