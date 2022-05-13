@@ -11,6 +11,8 @@ The object of the game is to buy and sell stocks, and by so doing accumulate a g
 * Players can be given custom names.
 * Players can buy and sell stocks.
 * Dice get rolled at beginning of each player's turn.
+* Stock values change based on dice roll.
+* Stocks can pay dividends, double, and split.
 * Rounds get tracked and when final round concludes, execute end game page.
 * About page with short description of game.
 * The 'Quit' button closes the program.
@@ -28,6 +30,7 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Main Menu: Add highscore list organized by number of rounds played
 * End Game Page: Add list of players ranked from most to least money
 * General: Add networking option to allow self to play remotely together
+* General: Add bots?
 
 #### Things To Fix:
 
