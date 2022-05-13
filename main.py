@@ -336,8 +336,9 @@ class GameSetup(tk.Frame):
                 bg="green"
             ).grid(row=3, column=1, sticky='w')
 
-        action_frame = tk.Frame(
+        action_frame = tk.LabelFrame(
             master=self,
+            text="Actions:",
             bg="green"
         )
         action_frame.grid_rowconfigure(0, weight=1)
@@ -364,8 +365,9 @@ class GameSetup(tk.Frame):
 
         def set_buy_frame():
 
-            buy_frame = tk.Frame(
+            buy_frame = tk.LabelFrame(
                 master=self,
+                text="Buy a stock:",
                 bg="green"
             )
             buy_frame.grid_columnconfigure(0, weight=1)
@@ -427,8 +429,9 @@ class GameSetup(tk.Frame):
                 set_buy_amount = tk.IntVar()
                 buy_range = [i for i in range(Player.max_buy(stock)+1)]
 
-                buy_num_frame = tk.Frame(
+                buy_num_frame = tk.LabelFrame(
                     master=self,
+                    text="Choose amount:",
                     bg='green'
                 )
                 buy_num_frame.grid_rowconfigure(0, weight=1)
@@ -463,8 +466,9 @@ class GameSetup(tk.Frame):
 
         def set_sell_frame():
 
-            sell_frame = tk.Frame(
+            sell_frame = tk.LabelFrame(
                 master=self,
+                text="Sell a stock:",
                 bg="green"
             )
             sell_frame.grid_columnconfigure(0, weight=1)
@@ -526,8 +530,9 @@ class GameSetup(tk.Frame):
                 set_sell_amount = tk.IntVar()
                 sell_range = [i for i in range(Player.max_sell(stock)+1)]
 
-                sell_num_frame = tk.Frame(
+                sell_num_frame = tk.LabelFrame(
                     master=self,
+                    text="Choose amount:",
                     bg='green'
                 )
                 sell_num_frame.grid_rowconfigure(0, weight=1)
@@ -751,15 +756,16 @@ class MainGame(tk.Frame):
                 bg="green"
             ).grid(row=3, column=1, sticky='w')
 
-        action_frame = tk.Frame(
+        action_frame = tk.LabelFrame(
             master=self,
+            text="Actions:",
             bg="green"
         )
         action_frame.grid_rowconfigure(0, weight=1)
         action_frame.grid_rowconfigure(1, weight=1)
         action_frame.grid_rowconfigure(2, weight=1)
         action_frame.grid_columnconfigure(0, weight=1)
-        action_frame.grid(row=4, column=1, sticky="nsew")
+        action_frame.grid(row=5, column=1, sticky="nsew")
         ttk.Button(
             master=action_frame,
             text="Buy",
@@ -779,8 +785,9 @@ class MainGame(tk.Frame):
 
         def set_buy_frame():
 
-            buy_frame = tk.Frame(
+            buy_frame = tk.LabelFrame(
                 master=self,
+                text="Buy a stock:",
                 bg="green"
             )
             buy_frame.grid_columnconfigure(0, weight=1)
@@ -789,7 +796,7 @@ class MainGame(tk.Frame):
             buy_frame.grid_rowconfigure(1, weight=1)
             buy_frame.grid_rowconfigure(2, weight=1)
             buy_frame.grid_rowconfigure(3, weight=1)
-            buy_frame.grid(row=3, column=1, sticky='nsew')
+            buy_frame.grid(row=5, column=1, sticky='nsew')
             tk.Label(
                     master=buy_frame,
                     text=f"Which stock do you wish to buy?",
@@ -842,8 +849,9 @@ class MainGame(tk.Frame):
                 set_buy_amount = tk.IntVar()
                 buy_range = [i for i in range(Player.max_buy(stock)+1)]
 
-                buy_num_frame = tk.Frame(
+                buy_num_frame = tk.LabelFrame(
                     master=self,
+                    text="Choose amount:",
                     bg='green'
                 )
                 buy_num_frame.grid_rowconfigure(0, weight=1)
@@ -851,7 +859,7 @@ class MainGame(tk.Frame):
                 buy_num_frame.grid_rowconfigure(2, weight=1)
                 buy_num_frame.grid_rowconfigure(3, weight=1)
                 buy_num_frame.grid_columnconfigure(0, weight=1)
-                buy_num_frame.grid(row=3, column=1, sticky='nsew')
+                buy_num_frame.grid(row=5, column=1, sticky='nsew')
                 tk.Label(
                     master=buy_num_frame,
                     text=f"How much {stock} do you wish to buy?",
@@ -878,8 +886,9 @@ class MainGame(tk.Frame):
 
         def set_sell_frame():
 
-            sell_frame = tk.Frame(
+            sell_frame = tk.LabelFrame(
                 master=self,
+                text="Sell a stock:",
                 bg="green"
             )
             sell_frame.grid_columnconfigure(0, weight=1)
@@ -888,7 +897,7 @@ class MainGame(tk.Frame):
             sell_frame.grid_rowconfigure(1, weight=1)
             sell_frame.grid_rowconfigure(2, weight=1)
             sell_frame.grid_rowconfigure(3, weight=1)
-            sell_frame.grid(row=3, column=1, sticky='nsew')
+            sell_frame.grid(row=5, column=1, sticky='nsew')
             tk.Label(
                     master=sell_frame,
                     text=f"Which stock do you wish to sell?",
@@ -941,8 +950,9 @@ class MainGame(tk.Frame):
                 set_sell_amount = tk.IntVar()
                 sell_range = [i for i in range(Player.max_sell(stock)+1)]
 
-                sell_num_frame = tk.Frame(
+                sell_num_frame = tk.LabelFrame(
                     master=self,
+                    text="Choose amount:",
                     bg='green'
                 )
                 sell_num_frame.grid_rowconfigure(0, weight=1)
@@ -950,7 +960,7 @@ class MainGame(tk.Frame):
                 sell_num_frame.grid_rowconfigure(2, weight=1)
                 sell_num_frame.grid_rowconfigure(3, weight=1)
                 sell_num_frame.grid_columnconfigure(0, weight=1)
-                sell_num_frame.grid(row=3, column=1, sticky='nsew')
+                sell_num_frame.grid(row=5, column=1, sticky='nsew')
                 tk.Label(
                     master=sell_num_frame,
                     text=f"How much {stock} do you wish to sell?",
@@ -975,11 +985,6 @@ class MainGame(tk.Frame):
                     command=lambda:sell_num_frame.grid_forget()
                 ).grid(row=3, column=0)
                 
-        ttk.Button(
-            master=self,
-            text="Back",
-            command=lambda: self.parent.switch_to(target=PlayerNamePage(parent=self.parent))
-        ).grid(row=6, column=0, columnspan=3, sticky="sew")
         ttk.Button(
             master=self,
             text="Main Menu",
@@ -1082,6 +1087,7 @@ class Stock:
             for i, v in enumerate(Player.players):
                 bonus = Player.players[i].stocks[stock] * dividend
                 Player.players[i].money += bonus
+                Player.players[i].money = int(Player.players[i].money)
 
     def double_stock(stock):
         Stock.stock_value[stock] = 100
