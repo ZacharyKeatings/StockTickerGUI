@@ -232,24 +232,23 @@ class GameSetup(tk.Frame):
     def __init__(self, parent: MainWindow):
         tk.Frame.__init__(self, master=parent, bg="green")
         self.parent = parent
-        self.grid_rowconfigure(1, weight=1)
+        # self.grid_rowconfigure(0, weight=1)
+        # self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
         self.grid_rowconfigure(4, weight=1)
         self.grid_rowconfigure(5, weight=1)
         self.grid_rowconfigure(6, weight=1)
         self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=8)
+        self.grid_columnconfigure(1, weight=10)
         self.grid_columnconfigure(2, weight=1)
 
-        def next_turn():
-            Game.turn += 1
-            print(Game.turn)
-
         def finish_setup():
-            if Game.turn > Game.num_players:
+            if Game.curr_player == Game.num_players-1:
+                Game.next_player()
                 self.parent.switch_to(target=MainGame(parent=self.parent))
             else:
+                Game.next_player()
                 self.parent.switch_to(target=GameSetup(parent=self.parent))
 
         tk.Label(
@@ -262,13 +261,13 @@ class GameSetup(tk.Frame):
             text="Current Player:",
             bg="green"
         )
-        cur_player.grid(row=1, column=1, sticky="ew")
+        cur_player.grid(row=1, column=1, sticky="new")
 
         tk.Label(
             master=cur_player,
             text=Player.current_player_name(),
             bg="green"
-        ).grid(column=1)
+        ).grid(row=1, column=1, sticky='snew')
 
         #Create number of player frames based on number of players chosen in newgame page
         self.player_grid = []
@@ -359,7 +358,7 @@ class GameSetup(tk.Frame):
         ttk.Button(
             master=action_frame,
             text="End Turn",
-            command=lambda: [next_turn(), finish_setup(), Game.next_player()]
+            command=lambda: [finish_setup()]
         ).grid(row=2, column=0)
 
 
@@ -380,7 +379,7 @@ class GameSetup(tk.Frame):
                     master=buy_frame,
                     text=f"Which stock do you wish to buy?",
                     bg="green"
-                ).grid(row=0, column=0, columnspan=2)
+            ).grid(row=0, column=0, columnspan=2)
             ttk.Button(
                 master=buy_frame,
                 text="Gold",
@@ -583,7 +582,7 @@ class MainGame(tk.Frame):
     def __init__(self, parent: MainWindow):
         tk.Frame.__init__(self, master=parent, bg="green")
         self.parent = parent
-        self.grid_rowconfigure(1, weight=1)
+        # self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
         self.grid_rowconfigure(4, weight=1)
@@ -592,6 +591,12 @@ class MainGame(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=8)
         self.grid_columnconfigure(2, weight=1)
+
+        def finish_game():
+            if Game.curr_round > Game.max_rounds:
+                self.parent.switch_to(target=EndGame(parent=self.parent))
+            else:
+                self.parent.switch_to(target=MainGame(parent=self.parent))
 
         tk.Label(
             master=self,
@@ -603,13 +608,42 @@ class MainGame(tk.Frame):
             text="Current Player:",
             bg="green"
         )
-        cur_player.grid(row=1, column=1, sticky="ew")
+        cur_player.grid(row=1, column=0, sticky="new")
 
         tk.Label(
             master=cur_player,
             text=Player.current_player_name(),
             bg="green"
-        ).grid(column=1)
+        ).grid(row=0, column=0, sticky="snew")
+
+        #dice roll frame
+        dice_roll_frame = tk.LabelFrame(
+                master=self,
+                text="Dice Roll:",
+                bg="green"
+            )
+        dice_roll_frame.grid(row=1, column=1, sticky="snew")
+
+        if Game.turn == 0:
+            stock, action, amount = Dice.roll()
+            tk.Label(
+                master=dice_roll_frame,
+                text=f"{stock} {action} {amount}",
+                bg="green"
+            ).grid(row=0, column=0, sticky="snew")       
+
+        #round frame
+        round_frame = tk.LabelFrame(
+                master=self,
+                text="Round:",
+                bg="green"
+            )
+        round_frame.grid(row=1, column=2, sticky="snew")
+        tk.Label(
+            master=round_frame,
+            text=f"{Game.curr_round} / {Game.max_rounds}",
+            bg="green"
+        ).grid(row=0, column=0, sticky="snew")
 
         #Create number of player frames based on number of players chosen in newgame page
         self.player_grid = []
@@ -700,7 +734,7 @@ class MainGame(tk.Frame):
         ttk.Button(
             master=action_frame,
             text="End Turn",
-            command=lambda: [Game.next_player(), self.parent.switch_to(target=MainGame(parent=self.parent))]
+            command=lambda: [Game.next_player(), finish_game()]
         ).grid(row=2, column=0)
 
 
@@ -795,7 +829,7 @@ class MainGame(tk.Frame):
                 ttk.Button(
                     master=buy_num_frame,
                     text="Ok",
-                    command=lambda:[Player.buy_stock(stock, set_buy_amount.get()), self.parent.switch_to(target=MainGame(parent=self.parent))]
+                    command=lambda:[Game.set_turn(), Player.buy_stock(stock, set_buy_amount.get()), self.parent.switch_to(target=MainGame(parent=self.parent))]
                 ).grid(row=2, column=0)
                 ttk.Button(
                     master=buy_num_frame,
@@ -894,7 +928,7 @@ class MainGame(tk.Frame):
                 ttk.Button(
                     master=sell_num_frame,
                     text="Ok",
-                    command=lambda:[Player.buy_stock(stock, set_sell_amount.get()), self.parent.switch_to(target=MainGame(parent=self.parent))]
+                    command=lambda:[Game.set_turn(), Player.buy_stock(stock, set_sell_amount.get()), self.parent.switch_to(target=MainGame(parent=self.parent))]
                 ).grid(row=2, column=0)
                 ttk.Button(
                     master=sell_num_frame,
@@ -918,6 +952,18 @@ class MainGame(tk.Frame):
             command=exit
         ).grid(row=8, column=0, columnspan=3, sticky="sew")
 
+
+class EndGame(tk.Frame):
+    def __init__(self, parent: MainWindow):
+        tk.Frame.__init__(self, master=parent, bg="green")
+        self.parent = parent
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+
+        tk.Label(
+            master=self,
+            text="END GAME"
+        ).grid()
 
 class Player:
     players = []
@@ -982,20 +1028,27 @@ class Stock:
     }
 
     def increase_value(stock, amount):
-        pass
+        Stock.stock_value[stock] += amount
+        if Stock.stock_value[stock] > 195:
+            Stock.double_stock(stock)
 
     def decrease_value(stock, amount):
-        pass
+        Stock.stock_value[stock] -= amount
+        if Stock.stock_value[stock] < 5:
+            Stock.split_stock(stock)
 
     def dividend(stock, amount):
         pass
 
     def double_stock(stock):
-        pass
+        Stock.stock_value[stock] = 100
+        for i, v in enumerate(Player.players):
+            Player.players[i].stocks[stock] = Player.players[i].stocks[stock] * 2
 
     def split_stock(stock):
-        pass
-
+        Stock.stock_value[stock] = 100
+        for i, v in enumerate(Player.players):
+            Player.players[i].stocks[stock] = 0
 
 class Dice:
     stock = ["Gold", "Silver", "Oil", "Bonds", "Grain", "Industrial"]
@@ -1035,13 +1088,27 @@ class Game:
     def set_rounds(rounds):
         Game.max_rounds = rounds
 
+    def next_round():
+        Game.curr_round += 1
+
+    def set_turn():
+        Game.turn += 1
+
     def next_player():
+        """Changes active player"""
+        #If current player is the last player, loop to first player:
         if Game.curr_player == Game.num_players-1:
+            Game.next_round()
             Game.curr_player = 0
+        #move to next player
         else:
             Game.curr_player += 1
+        Game.turn = 0
 
     def move_counter():
+        """Used in MainGame. If == 0, Dice.roll is called.
+        This enables a player to make multiple buy/sell actions
+        within a single turn without rerolling the dice each time."""
         Game.move_counter += 1
 
     def set_button_state(action, stock):
