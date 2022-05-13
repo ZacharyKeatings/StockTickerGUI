@@ -645,6 +645,45 @@ class MainGame(tk.Frame):
             bg="green"
         ).grid(row=0, column=0, sticky="snew")
 
+        #Stock Graph Frame
+        stock_graph_frame = tk.LabelFrame(
+                master=self,
+                text="Stock Prices:",
+                bg="green"
+            )
+        stock_graph_frame.grid(row=2, column=1, rowspan=3, sticky="snew")
+        tk.Label(
+            master=stock_graph_frame,
+            text=f"Gold: {Stock.stock_value['Gold']}",
+            bg="green"
+        ).grid(row=0, column=0, sticky="snew")
+        tk.Label(
+            master=stock_graph_frame,
+            text=f"Silver: {Stock.stock_value['Silver']}",
+            bg="green"
+        ).grid(row=1, column=0, sticky="snew")
+        tk.Label(
+            master=stock_graph_frame,
+            text=f"Oil: {Stock.stock_value['Oil']}",
+            bg="green"
+        ).grid(row=2, column=0, sticky="snew")
+        tk.Label(
+            master=stock_graph_frame,
+            text=f"Bonds: {Stock.stock_value['Bonds']}",
+            bg="green"
+        ).grid(row=0, column=1, sticky="snew")
+        tk.Label(
+            master=stock_graph_frame,
+            text=f"Grain: {Stock.stock_value['Grain']}",
+            bg="green"
+        ).grid(row=1, column=1, sticky="snew")
+        tk.Label(
+            master=stock_graph_frame,
+            text=f"Industrial: {Stock.stock_value['Industrial']}",
+            bg="green"
+        ).grid(row=2, column=1, sticky="snew")
+
+
         #Create number of player frames based on number of players chosen in newgame page
         self.player_grid = []
         for num in range(Game.num_players):
@@ -678,7 +717,7 @@ class MainGame(tk.Frame):
         for num in range(Game.num_players):
             tk.Label(
                 master=self.player_grid[num],
-                text=f"Money: {Player.players[num].money}",
+                text=f"Money: {int(Player.players[num].money)}",
                 bg="green"
             ).grid(row=0, column=0, sticky='w')
             tk.Label(
@@ -720,7 +759,7 @@ class MainGame(tk.Frame):
         action_frame.grid_rowconfigure(1, weight=1)
         action_frame.grid_rowconfigure(2, weight=1)
         action_frame.grid_columnconfigure(0, weight=1)
-        action_frame.grid(row=3, column=1, sticky="nsew")
+        action_frame.grid(row=4, column=1, sticky="nsew")
         ttk.Button(
             master=action_frame,
             text="Buy",
@@ -1038,7 +1077,11 @@ class Stock:
             Stock.split_stock(stock)
 
     def dividend(stock, amount):
-        pass
+        dividend = (amount / 100) + 1
+        if Stock.stock_value[stock] >= 100:
+            for i, v in enumerate(Player.players):
+                bonus = Player.players[i].stocks[stock] * dividend
+                Player.players[i].money += bonus
 
     def double_stock(stock):
         Stock.stock_value[stock] = 100
@@ -1061,17 +1104,14 @@ class Dice:
         amount = random.choice(Dice.amount)
 
         if action == Dice.action[0]:
-            # Stock.increase_value(stock, amount)
+            Stock.increase_value(stock, amount)
             return stock, action, amount
-            pass
         elif action == Dice.action[1]:
-            # Stock.decrease_value(stock, amount)
+            Stock.decrease_value(stock, amount)
             return stock, action, amount
-            pass
         else:
-            # Stock.dividend(stock, amount)
+            Stock.dividend(stock, amount)
             return stock, action, amount
-            pass
 
 
 class Game:
