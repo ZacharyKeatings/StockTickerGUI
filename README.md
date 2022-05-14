@@ -34,13 +34,14 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### Things To Fix:
 
+* refactor code and create functions out of reused code blocks - will allow for more flexibility of loading specific widgets instead of entire page reloads
 * Player name page: Names can be left blank
 * Overall design needs sprucing up
 * About page: Needs improvement
 * Game Setup Page: width of columns fluctuates slightly when going through menus
 * Gameplay: After pressing 'Ok' on buy/sell, go to set [buy/sell] frame instead of action_frame
-* Gameplay: Disable buy button if you can't afford any stocks
-* Gameplay: Disable sell button if you don't own any stocks
+* Gameplay: Disable buy button if you can't afford any stocks - need to update action_frame
+* Gameplay: Disable sell button if you don't own any stocks - need to update action_frame
 * General: Buy/sell values == 500/1000/2000/5000
 
 #### Inspiration:
