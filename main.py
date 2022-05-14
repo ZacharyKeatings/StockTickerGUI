@@ -2,6 +2,7 @@ import sys
 import tkinter as tk
 from tkinter import ttk
 import random
+import matplotlib as mpl
 
 
 class MainWindow(tk.Tk):
@@ -345,16 +346,18 @@ class GameSetup(tk.Frame):
         action_frame.grid_rowconfigure(1, weight=1)
         action_frame.grid_rowconfigure(2, weight=1)
         action_frame.grid_columnconfigure(0, weight=1)
-        action_frame.grid(row=3, column=1, sticky="nsew")
+        action_frame.grid(row=2, rowspan=4, column=1, sticky="nsew")
         ttk.Button(
             master=action_frame,
             text="Buy",
-            command=lambda: set_buy_frame()
+            command=lambda: set_buy_frame(),
+            state=lambda:Game.can_buy_any()
         ).grid(row=0, column=0)
         ttk.Button(
             master=action_frame,
             text="Sell",
-            command=lambda: set_sell_frame()
+            command=lambda: set_sell_frame(),
+            state=lambda:Game.can_sell_any()
         ).grid(row=1, column=0)
         ttk.Button(
             master=action_frame,
@@ -376,7 +379,7 @@ class GameSetup(tk.Frame):
             buy_frame.grid_rowconfigure(1, weight=1)
             buy_frame.grid_rowconfigure(2, weight=1)
             buy_frame.grid_rowconfigure(3, weight=1)
-            buy_frame.grid(row=3, column=1, sticky='nsew')
+            buy_frame.grid(row=2, rowspan=4, column=1, sticky='nsew')
             tk.Label(
                     master=buy_frame,
                     text=f"Which stock do you wish to buy?",
@@ -386,7 +389,7 @@ class GameSetup(tk.Frame):
                 master=buy_frame,
                 text="Gold",
                 state=Game.set_button_state("Buy", "Gold"),
-                command=lambda:[set_buy_num_frame("Gold")]
+                command=lambda:set_buy_num_frame("Gold")
             ).grid(row=1,column=0)
             ttk.Button(
                 master=buy_frame,
@@ -439,10 +442,10 @@ class GameSetup(tk.Frame):
                 buy_num_frame.grid_rowconfigure(2, weight=1)
                 buy_num_frame.grid_rowconfigure(3, weight=1)
                 buy_num_frame.grid_columnconfigure(0, weight=1)
-                buy_num_frame.grid(row=3, column=1, sticky='nsew')
+                buy_num_frame.grid(row=2, rowspan=4, column=1, sticky='nsew')
                 tk.Label(
                     master=buy_num_frame,
-                    text=f"How much {stock} do you wish to buy?",
+                    text=f"How many shares of {stock} do you wish to buy?",
                     bg="green"
                 ).grid(row=0, column=0)
                 buy_combobox = ttk.Combobox(
@@ -477,7 +480,7 @@ class GameSetup(tk.Frame):
             sell_frame.grid_rowconfigure(1, weight=1)
             sell_frame.grid_rowconfigure(2, weight=1)
             sell_frame.grid_rowconfigure(3, weight=1)
-            sell_frame.grid(row=3, column=1, sticky='nsew')
+            sell_frame.grid(row=2, rowspan=4, column=1, sticky='nsew')
             tk.Label(
                     master=sell_frame,
                     text=f"Which stock do you wish to sell?",
@@ -540,10 +543,10 @@ class GameSetup(tk.Frame):
                 sell_num_frame.grid_rowconfigure(2, weight=1)
                 sell_num_frame.grid_rowconfigure(3, weight=1)
                 sell_num_frame.grid_columnconfigure(0, weight=1)
-                sell_num_frame.grid(row=3, column=1, sticky='nsew')
+                sell_num_frame.grid(row=2, rowspan=4, column=1, sticky='nsew')
                 tk.Label(
                     master=sell_num_frame,
-                    text=f"How much {stock} do you wish to sell?",
+                    text=f"How many shares of {stock} do you wish to sell?",
                     bg="green"
                 ).grid(row=0, column=0)
                 sell_combobox = ttk.Combobox(
@@ -557,7 +560,7 @@ class GameSetup(tk.Frame):
                 ttk.Button(
                     master=sell_num_frame,
                     text="Ok",
-                    command=lambda:[Player.buy_stock(stock, set_sell_amount.get()), self.parent.switch_to(target=GameSetup(parent=self.parent))]
+                    command=lambda:[Player.sell_stock(stock, set_sell_amount.get()), self.parent.switch_to(target=GameSetup(parent=self.parent))]
                 ).grid(row=2, column=0)
                 ttk.Button(
                     master=sell_num_frame,
@@ -659,32 +662,32 @@ class MainGame(tk.Frame):
         stock_graph_frame.grid(row=2, column=1, rowspan=3, sticky="snew")
         tk.Label(
             master=stock_graph_frame,
-            text=f"Gold: {Stock.stock_value['Gold']}",
+            text=f"Gold: ${Stock.stock_value['Gold']:.2f}",
             bg="green"
         ).grid(row=0, column=0, sticky="snew")
         tk.Label(
             master=stock_graph_frame,
-            text=f"Silver: {Stock.stock_value['Silver']}",
+            text=f"Silver: ${Stock.stock_value['Silver']:.2f}",
             bg="green"
         ).grid(row=1, column=0, sticky="snew")
         tk.Label(
             master=stock_graph_frame,
-            text=f"Oil: {Stock.stock_value['Oil']}",
+            text=f"Oil: ${Stock.stock_value['Oil']:.2f}",
             bg="green"
         ).grid(row=2, column=0, sticky="snew")
         tk.Label(
             master=stock_graph_frame,
-            text=f"Bonds: {Stock.stock_value['Bonds']}",
+            text=f"Bonds: ${Stock.stock_value['Bonds']:.2f}",
             bg="green"
         ).grid(row=0, column=1, sticky="snew")
         tk.Label(
             master=stock_graph_frame,
-            text=f"Grain: {Stock.stock_value['Grain']}",
+            text=f"Grain: ${Stock.stock_value['Grain']:.2f}",
             bg="green"
         ).grid(row=1, column=1, sticky="snew")
         tk.Label(
             master=stock_graph_frame,
-            text=f"Industrial: {Stock.stock_value['Industrial']}",
+            text=f"Industrial: ${Stock.stock_value['Industrial']:.2f}",
             bg="green"
         ).grid(row=2, column=1, sticky="snew")
 
@@ -1045,7 +1048,7 @@ class Player:
 
     def max_buy(stock):
         max_buy = Player.players[Game.curr_player].money // Stock.stock_value[stock]
-        return max_buy
+        return int(max_buy)
 
     def max_sell(stock):
         max_sell = Player.players[Game.curr_player].stocks[stock]
@@ -1059,45 +1062,53 @@ class Player:
         Player.players[Game.curr_player].money += amount * Stock.stock_value[stock]
         Player.players[Game.curr_player].stocks[stock] -= amount
 
-#!Create list to store historical values of each stock for matplotlib in main game
-#!historical_value_gold: {round: value, round: value, round: value} - maybe?
+
 class Stock:
+    historical_value = {
+        "Gold": {},
+        "Silver": {},
+        "Oil": {},
+        "Bonds": {},
+        "Grain": {},
+        "Industrial": {}
+    }
+
     stock_value = {
-        "Gold": 100,
-        "Silver": 100,
-        "Oil": 100,
-        "Bonds": 100,
-        "Grain": 100,
-        "Industrial": 100
+        "Gold": 1,
+        "Silver": 1,
+        "Oil": 1,
+        "Bonds": 1,
+        "Grain": 1,
+        "Industrial": 1
     }
 
     def increase_value(stock, amount):
-        Stock.stock_value[stock] += amount
-        if Stock.stock_value[stock] > 195:
+        Stock.stock_value[stock] += (amount / 100)
+        if Stock.stock_value[stock] > 1.95:
             Stock.double_stock(stock)
 
     def decrease_value(stock, amount):
-        Stock.stock_value[stock] -= amount
-        if Stock.stock_value[stock] < 5:
+        Stock.stock_value[stock] -= (amount / 100)
+        if Stock.stock_value[stock] < .05:
             Stock.split_stock(stock)
 
     def dividend(stock, amount):
-        dividend = (amount / 100) + 1
-        if Stock.stock_value[stock] >= 100:
+        dividend = (amount / 100)
+        if Stock.stock_value[stock] >= 1:
             for i, v in enumerate(Player.players):
                 bonus = Player.players[i].stocks[stock] * dividend
-                Player.players[i].money += bonus
-                Player.players[i].money = int(Player.players[i].money)
+                Player.players[i].money += int(bonus)
 
     def double_stock(stock):
-        Stock.stock_value[stock] = 100
+        Stock.stock_value[stock] = 1
         for i, v in enumerate(Player.players):
             Player.players[i].stocks[stock] = Player.players[i].stocks[stock] * 2
 
     def split_stock(stock):
-        Stock.stock_value[stock] = 100
+        Stock.stock_value[stock] = 1
         for i, v in enumerate(Player.players):
             Player.players[i].stocks[stock] = 0
+
 
 class Dice:
     stock = ["Gold", "Silver", "Oil", "Bonds", "Grain", "Industrial"]
@@ -1172,6 +1183,32 @@ class Game:
                 return tk.NORMAL
             elif Player.can_sell(stock) == False:
                 return tk.DISABLED
+
+    def can_buy_any():
+        current_prices = []
+        stock_name = list(Stock.stock_value)
+        for stock in range(len(Stock.stock_value)):
+            stock_price = Stock.stock_value[stock_name[stock]]
+            current_prices.append(stock_price)
+        if Player.players[Game.curr_player].money < min(current_prices):
+            print("disabled")
+            return tk.DISABLED
+        else:
+            print("normal")
+            return tk.NORMAL
+
+    def can_sell_any():
+        current_shares = []
+        stock_name = list(Player.players[Game.curr_player].stocks)
+        for value in range(len(Player.players[Game.curr_player].stocks)):
+            stock_price = Player.players[Game.curr_player].stocks[stock_name[value]]
+            current_shares.append(stock_price)
+        if max(current_shares) == 0:
+            print("disabled")
+            return tk.DISABLED
+        else:
+            print("normal")
+            return tk.NORMAL
 
 def main():
     return MainWindow().mainloop()
