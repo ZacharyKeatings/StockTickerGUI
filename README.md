@@ -37,14 +37,10 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Player name page: Names can be left blank
 * Overall design needs sprucing up
 * About page: Needs improvement
-* Game Setup Page: width of column 1 flucuates slightly when going through menus
+* Game Setup Page: width of columns fluctuates slightly when going through menus
 * Gameplay: Disable buy button if you can't afford any stocks
 * Gameplay: Disable sell button if you don't own any stocks
 * General: Call individual stocks 'Shares'
-* Gameplay: After buying/selling number page, go back to respective buy/sell frame, not main action frame
-* General: revalue shares to $1 to match board game
-* General: revalue dice amount so when it says 5,10, 20, value changes in .05, 0.1, 0.2
-* General: Change math relating to dividends with updated dice amount
 * General: Buy/sell values == 500/1000/2000/5000
 
 #### Inspiration:
