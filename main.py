@@ -2,7 +2,13 @@ import sys
 import tkinter as tk
 from tkinter import ttk
 import random
-import matplotlib as mpl
+import matplotlib
+import matplotlib.pyplot as plt
+
+matplotlib.use('TkAgg')
+
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 class MainWindow(tk.Tk):
@@ -240,9 +246,9 @@ class GameSetup(tk.Frame):
         self.grid_rowconfigure(4, weight=1)
         self.grid_rowconfigure(5, weight=1)
         self.grid_rowconfigure(6, weight=1)
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=10)
-        self.grid_columnconfigure(2, weight=1)
+        # self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        # self.grid_columnconfigure(2, weight=1)
 
         def finish_setup():
             if Game.curr_player == Game.num_players-1:
@@ -337,34 +343,38 @@ class GameSetup(tk.Frame):
                 bg="green"
             ).grid(row=3, column=1, sticky='w')
 
-        action_frame = tk.LabelFrame(
-            master=self,
-            text="Actions:",
-            bg="green"
-        )
-        action_frame.grid_rowconfigure(0, weight=1)
-        action_frame.grid_rowconfigure(1, weight=1)
-        action_frame.grid_rowconfigure(2, weight=1)
-        action_frame.grid_columnconfigure(0, weight=1)
-        action_frame.grid(row=2, rowspan=4, column=1, sticky="nsew")
-        ttk.Button(
-            master=action_frame,
-            text="Buy",
-            command=lambda: set_buy_frame(),
-            state=lambda:Game.can_buy_any()
-        ).grid(row=0, column=0)
-        ttk.Button(
-            master=action_frame,
-            text="Sell",
-            command=lambda: set_sell_frame(),
-            state=lambda:Game.can_sell_any()
-        ).grid(row=1, column=0)
-        ttk.Button(
-            master=action_frame,
-            text="End Turn",
-            command=lambda: [finish_setup()]
-        ).grid(row=2, column=0)
+        def set_action_frame():
+            action_frame = tk.LabelFrame(
+                master=self,
+                text="Actions:",
+                bg="green"
+            )
+            action_frame.grid_rowconfigure(0, weight=1)
+            action_frame.grid_rowconfigure(1, weight=1)
+            action_frame.grid_rowconfigure(2, weight=1)
+            action_frame.grid_columnconfigure(0, weight=1)
+            action_frame.grid(row=2, rowspan=4, column=1, sticky="nsew")
+            buy_state = Game.can_buy_any()
+            ttk.Button(
+                master=action_frame,
+                text="Buy",
+                command=lambda: [action_frame.grid_forget(), set_buy_frame()],
+                state=buy_state
+            ).grid(row=0, column=0)
+            sell_state = Game.can_sell_any()
+            ttk.Button(
+                master=action_frame,
+                text="Sell",
+                command=lambda: [action_frame.grid_forget(), set_sell_frame()],
+                state=sell_state
+            ).grid(row=1, column=0)
+            ttk.Button(
+                master=action_frame,
+                text="End Turn",
+                command=lambda: [finish_setup()]
+            ).grid(row=2, column=0)
 
+        set_action_frame()
 
         def set_buy_frame():
 
@@ -389,83 +399,83 @@ class GameSetup(tk.Frame):
                 master=buy_frame,
                 text="Gold",
                 state=Game.set_button_state("Buy", "Gold"),
-                command=lambda:set_buy_num_frame("Gold")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Gold")]
             ).grid(row=1,column=0)
             ttk.Button(
                 master=buy_frame,
                 text="Silver",
                 state=Game.set_button_state("Buy", "Silver"),
-                command=lambda:set_buy_num_frame("Silver")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Silver")]
             ).grid(row=2,column=0)
             ttk.Button(
                 master=buy_frame,
                 text="Oil",
                 state=Game.set_button_state("Buy", "Oil"),
-                command=lambda:set_buy_num_frame("Oil")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Oil")]
             ).grid(row=3,column=0)
             ttk.Button(
                 master=buy_frame,
                 text="Bonds",
                 state=Game.set_button_state("Buy", "Bonds"),
-                command=lambda:set_buy_num_frame("Bonds")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Bonds")]
             ).grid(row=1,column=1)
             ttk.Button(
                 master=buy_frame,
                 text="Grain",
                 state=Game.set_button_state("Buy", "Grain"),
-                command=lambda:set_buy_num_frame("Grain")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Grain")]
             ).grid(row=2,column=1)
             ttk.Button(
                 master=buy_frame,
                 text="Industrial",
                 state=Game.set_button_state("Buy", "Industrial"),
-                command=lambda:set_buy_num_frame("Industrial")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Industrial")]
             ).grid(row=3,column=1)
             ttk.Button(
                 master=buy_frame,
                 text="Back",
-                command=lambda:buy_frame.grid_forget()
+                command=lambda:[buy_frame.grid_forget(), set_action_frame()]
             ).grid(row=4, column=0, columnspan=2, sticky="nsew")
             
-            def set_buy_num_frame(stock):
+        def set_buy_num_frame(stock):
 
-                set_buy_amount = tk.IntVar()
-                buy_range = [i for i in range(Player.max_buy(stock)+1)]
+            set_buy_amount = tk.IntVar()
+            buy_range = [i for i in range(500, Player.max_buy(stock)+1, 500)]
 
-                buy_num_frame = tk.LabelFrame(
-                    master=self,
-                    text="Choose amount:",
-                    bg='green'
-                )
-                buy_num_frame.grid_rowconfigure(0, weight=1)
-                buy_num_frame.grid_rowconfigure(1, weight=1)
-                buy_num_frame.grid_rowconfigure(2, weight=1)
-                buy_num_frame.grid_rowconfigure(3, weight=1)
-                buy_num_frame.grid_columnconfigure(0, weight=1)
-                buy_num_frame.grid(row=2, rowspan=4, column=1, sticky='nsew')
-                tk.Label(
-                    master=buy_num_frame,
-                    text=f"How many shares of {stock} do you wish to buy?",
-                    bg="green"
-                ).grid(row=0, column=0)
-                buy_combobox = ttk.Combobox(
-                    master=buy_num_frame,
-                    textvariable=set_buy_amount,
-                    state='readonly',
-                    values=buy_range
-                )
-                buy_combobox.grid(row=1, column=0)
-                buy_combobox.current(1)
-                ttk.Button(
-                    master=buy_num_frame,
-                    text="Ok",
-                    command=lambda:[Player.buy_stock(stock, set_buy_amount.get()), self.parent.switch_to(target=GameSetup(parent=self.parent))]
-                ).grid(row=2, column=0)
-                ttk.Button(
-                    master=buy_num_frame,
-                    text="Back",
-                    command=lambda:buy_num_frame.grid_forget()
-                ).grid(row=3, column=0)
+            buy_num_frame = tk.LabelFrame(
+                master=self,
+                text="Choose amount:",
+                bg='green'
+            )
+            buy_num_frame.grid_rowconfigure(0, weight=1)
+            buy_num_frame.grid_rowconfigure(1, weight=1)
+            buy_num_frame.grid_rowconfigure(2, weight=1)
+            buy_num_frame.grid_rowconfigure(3, weight=1)
+            buy_num_frame.grid_columnconfigure(0, weight=1)
+            buy_num_frame.grid(row=2, rowspan=4, column=1, sticky='nsew')
+            tk.Label(
+                master=buy_num_frame,
+                text=f"How many shares of {stock} do you wish to buy?",
+                bg="green"
+            ).grid(row=0, column=0)
+            buy_combobox = ttk.Combobox(
+                master=buy_num_frame,
+                textvariable=set_buy_amount,
+                state='readonly',
+                values=buy_range
+            )
+            buy_combobox.grid(row=1, column=0)
+            buy_combobox.current(0)
+            ttk.Button(
+                master=buy_num_frame,
+                text="Ok",
+                command=lambda:[Player.buy_stock(stock, set_buy_amount.get()), self.parent.switch_to(target=GameSetup(parent=self.parent))]
+            ).grid(row=2, column=0)
+            ttk.Button(
+                master=buy_num_frame,
+                text="Back",
+                command=lambda:[buy_num_frame.grid_forget(), set_buy_frame()]
+            ).grid(row=3, column=0)
 
         def set_sell_frame():
 
@@ -490,84 +500,84 @@ class GameSetup(tk.Frame):
                 master=sell_frame,
                 text="Gold",
                 state=Game.set_button_state("Sell", "Gold"),
-                command=lambda:set_sell_num_frame("Gold")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Gold")]
             ).grid(row=1,column=0)
             ttk.Button(
                 master=sell_frame,
                 text="Silver",
                 state=Game.set_button_state("Sell", "Silver"),
-                command=lambda:set_sell_num_frame("Silver")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Silver")]
             ).grid(row=2,column=0)
             ttk.Button(
                 master=sell_frame,
                 text="Oil",
                 state=Game.set_button_state("Sell", "Oil"),
-                command=lambda:set_sell_num_frame("Oil")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Oil")]
             ).grid(row=3,column=0)
             ttk.Button(
                 master=sell_frame,
                 text="Bonds",
                 state=Game.set_button_state("Sell", "Bonds"),
-                command=lambda:set_sell_num_frame("Bonds")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Bonds")]
             ).grid(row=1,column=1)
             ttk.Button(
                 master=sell_frame,
                 text="Grain",
                 state=Game.set_button_state("Sell", "Grain"),
-                command=lambda:set_sell_num_frame("Grain")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Grain")]
             ).grid(row=2,column=1)
             ttk.Button(
                 master=sell_frame,
                 text="Industrial",
                 state=Game.set_button_state("Sell", "Industrial"),
-                command=lambda:set_sell_num_frame("Industrial")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Industrial")]
             ).grid(row=3,column=1)
             ttk.Button(
                 master=sell_frame,
                 text="Back",
-                command=lambda:sell_frame.grid_forget()
+                command=lambda:[sell_frame.grid_forget(), set_action_frame()]
             ).grid(row=4, column=0, columnspan=2, sticky="nsew")
             
-            def set_sell_num_frame(stock):
+        def set_sell_num_frame(stock):
 
-                set_sell_amount = tk.IntVar()
-                sell_range = [i for i in range(Player.max_sell(stock)+1)]
+            set_sell_amount = tk.IntVar()
+            sell_range = [i for i in range(500, Player.max_sell(stock)+1, 500)]
 
-                sell_num_frame = tk.LabelFrame(
-                    master=self,
-                    text="Choose amount:",
-                    bg='green'
-                )
-                sell_num_frame.grid_rowconfigure(0, weight=1)
-                sell_num_frame.grid_rowconfigure(1, weight=1)
-                sell_num_frame.grid_rowconfigure(2, weight=1)
-                sell_num_frame.grid_rowconfigure(3, weight=1)
-                sell_num_frame.grid_columnconfigure(0, weight=1)
-                sell_num_frame.grid(row=2, rowspan=4, column=1, sticky='nsew')
-                tk.Label(
-                    master=sell_num_frame,
-                    text=f"How many shares of {stock} do you wish to sell?",
-                    bg="green"
-                ).grid(row=0, column=0)
-                sell_combobox = ttk.Combobox(
-                    master=sell_num_frame,
-                    textvariable=set_sell_amount,
-                    state='readonly',
-                    values=sell_range
-                )
-                sell_combobox.grid(row=1, column=0)
-                sell_combobox.current(1)
-                ttk.Button(
-                    master=sell_num_frame,
-                    text="Ok",
-                    command=lambda:[Player.sell_stock(stock, set_sell_amount.get()), self.parent.switch_to(target=GameSetup(parent=self.parent))]
-                ).grid(row=2, column=0)
-                ttk.Button(
-                    master=sell_num_frame,
-                    text="Back",
-                    command=lambda:sell_num_frame.grid_forget()
-                ).grid(row=3, column=0)
-                
+            sell_num_frame = tk.LabelFrame(
+                master=self,
+                text="Choose amount:",
+                bg='green'
+            )
+            sell_num_frame.grid_rowconfigure(0, weight=1)
+            sell_num_frame.grid_rowconfigure(1, weight=1)
+            sell_num_frame.grid_rowconfigure(2, weight=1)
+            sell_num_frame.grid_rowconfigure(3, weight=1)
+            sell_num_frame.grid_columnconfigure(0, weight=1)
+            sell_num_frame.grid(row=2, rowspan=4, column=1, sticky='nsew')
+            tk.Label(
+                master=sell_num_frame,
+                text=f"How many shares of {stock} do you wish to sell?",
+                bg="green"
+            ).grid(row=0, column=0)
+            sell_combobox = ttk.Combobox(
+                master=sell_num_frame,
+                textvariable=set_sell_amount,
+                state='readonly',
+                values=sell_range
+            )
+            sell_combobox.grid(row=1, column=0)
+            sell_combobox.current(0)
+            ttk.Button(
+                master=sell_num_frame,
+                text="Ok",
+                command=lambda:[Player.sell_stock(stock, set_sell_amount.get()), self.parent.switch_to(target=GameSetup(parent=self.parent))]
+            ).grid(row=2, column=0)
+            ttk.Button(
+                master=sell_num_frame,
+                text="Back",
+                command=lambda:[sell_num_frame.grid_forget(),set_sell_frame()]
+            ).grid(row=3, column=0)
+            
         ttk.Button(
             master=self,
             text="Back",
@@ -596,9 +606,9 @@ class MainGame(tk.Frame):
         self.grid_rowconfigure(4, weight=1)
         self.grid_rowconfigure(5, weight=1)
         self.grid_rowconfigure(6, weight=1)
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=8)
-        self.grid_columnconfigure(2, weight=1)
+        # self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        # self.grid_columnconfigure(2, weight=1)
 
         def finish_game():
             if Game.curr_round > Game.max_rounds:
@@ -660,36 +670,58 @@ class MainGame(tk.Frame):
                 bg="green"
             )
         stock_graph_frame.grid(row=2, column=1, rowspan=3, sticky="snew")
-        tk.Label(
-            master=stock_graph_frame,
-            text=f"Gold: ${Stock.stock_value['Gold']:.2f}",
-            bg="green"
-        ).grid(row=0, column=0, sticky="snew")
-        tk.Label(
-            master=stock_graph_frame,
-            text=f"Silver: ${Stock.stock_value['Silver']:.2f}",
-            bg="green"
-        ).grid(row=1, column=0, sticky="snew")
-        tk.Label(
-            master=stock_graph_frame,
-            text=f"Oil: ${Stock.stock_value['Oil']:.2f}",
-            bg="green"
-        ).grid(row=2, column=0, sticky="snew")
-        tk.Label(
-            master=stock_graph_frame,
-            text=f"Bonds: ${Stock.stock_value['Bonds']:.2f}",
-            bg="green"
-        ).grid(row=0, column=1, sticky="snew")
-        tk.Label(
-            master=stock_graph_frame,
-            text=f"Grain: ${Stock.stock_value['Grain']:.2f}",
-            bg="green"
-        ).grid(row=1, column=1, sticky="snew")
-        tk.Label(
-            master=stock_graph_frame,
-            text=f"Industrial: ${Stock.stock_value['Industrial']:.2f}",
-            bg="green"
-        ).grid(row=2, column=1, sticky="snew")
+
+        def graph():
+
+            stocks = Stock.stock_value.keys()
+            values = Stock.stock_value.values()
+
+            # create a figure
+            figure = Figure(figsize=(5,4), dpi=100)
+
+            # create FigureCanvasTkAgg object
+            figure_canvas = FigureCanvasTkAgg(figure, stock_graph_frame)
+
+            # create axes
+            axes = figure.add_subplot()
+            
+            # create the barchart
+            axes.bar(stocks, values)
+            axes.set_ylabel('Current Value')
+            figure_canvas.get_tk_widget().grid(row=0, column=0, sticky='snew')
+
+        graph()
+
+        # tk.Label(
+        #     master=stock_graph_frame,
+        #     text=f"Gold: ${Stock.stock_value['Gold']:.2f}",
+        #     bg="green"
+        # ).grid(row=0, column=0, sticky="snew")
+        # tk.Label(
+        #     master=stock_graph_frame,
+        #     text=f"Silver: ${Stock.stock_value['Silver']:.2f}",
+        #     bg="green"
+        # ).grid(row=1, column=0, sticky="snew")
+        # tk.Label(
+        #     master=stock_graph_frame,
+        #     text=f"Oil: ${Stock.stock_value['Oil']:.2f}",
+        #     bg="green"
+        # ).grid(row=2, column=0, sticky="snew")
+        # tk.Label(
+        #     master=stock_graph_frame,
+        #     text=f"Bonds: ${Stock.stock_value['Bonds']:.2f}",
+        #     bg="green"
+        # ).grid(row=0, column=1, sticky="snew")
+        # tk.Label(
+        #     master=stock_graph_frame,
+        #     text=f"Grain: ${Stock.stock_value['Grain']:.2f}",
+        #     bg="green"
+        # ).grid(row=1, column=1, sticky="snew")
+        # tk.Label(
+        #     master=stock_graph_frame,
+        #     text=f"Industrial: ${Stock.stock_value['Industrial']:.2f}",
+        #     bg="green"
+        # ).grid(row=2, column=1, sticky="snew")
 
 
         #Create number of player frames based on number of players chosen in newgame page
@@ -759,32 +791,38 @@ class MainGame(tk.Frame):
                 bg="green"
             ).grid(row=3, column=1, sticky='w')
 
-        action_frame = tk.LabelFrame(
-            master=self,
-            text="Actions:",
-            bg="green"
-        )
-        action_frame.grid_rowconfigure(0, weight=1)
-        action_frame.grid_rowconfigure(1, weight=1)
-        action_frame.grid_rowconfigure(2, weight=1)
-        action_frame.grid_columnconfigure(0, weight=1)
-        action_frame.grid(row=5, column=1, sticky="nsew")
-        ttk.Button(
-            master=action_frame,
-            text="Buy",
-            command=lambda: set_buy_frame()
-        ).grid(row=0, column=0)
-        ttk.Button(
-            master=action_frame,
-            text="Sell",
-            command=lambda: set_sell_frame()
-        ).grid(row=1, column=0)
-        ttk.Button(
-            master=action_frame,
-            text="End Turn",
-            command=lambda: [Game.next_player(), finish_game()]
-        ).grid(row=2, column=0)
+        def set_action_frame():
+            action_frame = tk.LabelFrame(
+                master=self,
+                text="Actions:",
+                bg="green"
+            )
+            action_frame.grid_rowconfigure(0, weight=1)
+            action_frame.grid_rowconfigure(1, weight=1)
+            action_frame.grid_rowconfigure(2, weight=1)
+            action_frame.grid_columnconfigure(0, weight=1)
+            action_frame.grid(row=5, column=1, sticky="nsew")
+            buy_state = Game.can_buy_any()
+            ttk.Button(
+                master=action_frame,
+                text="Buy",
+                command=lambda: [action_frame.grid_forget(), set_buy_frame()],
+                state=buy_state
+            ).grid(row=0, column=0)
+            sell_state = Game.can_sell_any()
+            ttk.Button(
+                master=action_frame,
+                text="Sell",
+                command=lambda: [action_frame.grid_forget(), set_sell_frame()],
+                state=sell_state                
+            ).grid(row=1, column=0)
+            ttk.Button(
+                master=action_frame,
+                text="End Turn",
+                command=lambda: [Game.next_player(), finish_game()]
+            ).grid(row=2, column=0)
 
+        set_action_frame()
 
         def set_buy_frame():
 
@@ -809,48 +847,48 @@ class MainGame(tk.Frame):
                 master=buy_frame,
                 text="Gold",
                 state=Game.set_button_state("Buy", "Gold"),
-                command=lambda:[set_buy_num_frame("Gold")]
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Gold")]
             ).grid(row=1,column=0)
             ttk.Button(
                 master=buy_frame,
                 text="Silver",
                 state=Game.set_button_state("Buy", "Silver"),
-                command=lambda:set_buy_num_frame("Silver")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Silver")]
             ).grid(row=2,column=0)
             ttk.Button(
                 master=buy_frame,
                 text="Oil",
                 state=Game.set_button_state("Buy", "Oil"),
-                command=lambda:set_buy_num_frame("Oil")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Oil")]
             ).grid(row=3,column=0)
             ttk.Button(
                 master=buy_frame,
                 text="Bonds",
                 state=Game.set_button_state("Buy", "Bonds"),
-                command=lambda:set_buy_num_frame("Bonds")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Bonds")]
             ).grid(row=1,column=1)
             ttk.Button(
                 master=buy_frame,
                 text="Grain",
                 state=Game.set_button_state("Buy", "Grain"),
-                command=lambda:set_buy_num_frame("Grain")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Grain")]
             ).grid(row=2,column=1)
             ttk.Button(
                 master=buy_frame,
                 text="Industrial",
                 state=Game.set_button_state("Buy", "Industrial"),
-                command=lambda:set_buy_num_frame("Industrial")
+                command=lambda:[buy_frame.grid_forget(), set_buy_num_frame("Industrial")]
             ).grid(row=3,column=1)
             ttk.Button(
                 master=buy_frame,
                 text="Back",
-                command=lambda:buy_frame.grid_forget()
+                command=lambda:[buy_frame.grid_forget(), set_action_frame()]
             ).grid(row=4, column=0, columnspan=2, sticky="nsew")
             
             def set_buy_num_frame(stock):
 
                 set_buy_amount = tk.IntVar()
-                buy_range = [i for i in range(Player.max_buy(stock)+1)]
+                buy_range = [i for i in range(500, Player.max_buy(stock)+1, 500)]
 
                 buy_num_frame = tk.LabelFrame(
                     master=self,
@@ -875,7 +913,7 @@ class MainGame(tk.Frame):
                     values=buy_range
                 )
                 buy_combobox.grid(row=1, column=0)
-                buy_combobox.current(1)
+                buy_combobox.current(0)
                 ttk.Button(
                     master=buy_num_frame,
                     text="Ok",
@@ -884,7 +922,7 @@ class MainGame(tk.Frame):
                 ttk.Button(
                     master=buy_num_frame,
                     text="Back",
-                    command=lambda:buy_num_frame.grid_forget()
+                    command=lambda:[buy_num_frame.grid_forget(), set_buy_frame()]
                 ).grid(row=3, column=0)
 
         def set_sell_frame():
@@ -910,48 +948,48 @@ class MainGame(tk.Frame):
                 master=sell_frame,
                 text="Gold",
                 state=Game.set_button_state("Sell", "Gold"),
-                command=lambda:set_sell_num_frame("Gold")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Gold")]
             ).grid(row=1,column=0)
             ttk.Button(
                 master=sell_frame,
                 text="Silver",
                 state=Game.set_button_state("Sell", "Silver"),
-                command=lambda:set_sell_num_frame("Silver")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Silver")]
             ).grid(row=2,column=0)
             ttk.Button(
                 master=sell_frame,
                 text="Oil",
                 state=Game.set_button_state("Sell", "Oil"),
-                command=lambda:set_sell_num_frame("Oil")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Oil")]
             ).grid(row=3,column=0)
             ttk.Button(
                 master=sell_frame,
                 text="Bonds",
                 state=Game.set_button_state("Sell", "Bonds"),
-                command=lambda:set_sell_num_frame("Bonds")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Bonds")]
             ).grid(row=1,column=1)
             ttk.Button(
                 master=sell_frame,
                 text="Grain",
                 state=Game.set_button_state("Sell", "Grain"),
-                command=lambda:set_sell_num_frame("Grain")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Grain")]
             ).grid(row=2,column=1)
             ttk.Button(
                 master=sell_frame,
                 text="Industrial",
                 state=Game.set_button_state("Sell", "Industrial"),
-                command=lambda:set_sell_num_frame("Industrial")
+                command=lambda:[sell_frame.grid_forget(), set_sell_num_frame("Industrial")]
             ).grid(row=3,column=1)
             ttk.Button(
                 master=sell_frame,
                 text="Back",
-                command=lambda:sell_frame.grid_forget()
+                command=lambda:[sell_frame.grid_forget(), set_action_frame()]
             ).grid(row=4, column=0, columnspan=2, sticky="nsew")
             
             def set_sell_num_frame(stock):
 
                 set_sell_amount = tk.IntVar()
-                sell_range = [i for i in range(Player.max_sell(stock)+1)]
+                sell_range = [i for i in range(500, Player.max_sell(stock)+1, 500)]
 
                 sell_num_frame = tk.LabelFrame(
                     master=self,
@@ -976,7 +1014,7 @@ class MainGame(tk.Frame):
                     values=sell_range
                 )
                 sell_combobox.grid(row=1, column=0)
-                sell_combobox.current(1)
+                sell_combobox.current(0)
                 ttk.Button(
                     master=sell_num_frame,
                     text="Ok",
@@ -985,7 +1023,7 @@ class MainGame(tk.Frame):
                 ttk.Button(
                     master=sell_num_frame,
                     text="Back",
-                    command=lambda:sell_num_frame.grid_forget()
+                    command=lambda:[sell_num_frame.grid_forget(),set_sell_frame()]
                 ).grid(row=3, column=0)
                 
         ttk.Button(
@@ -1010,7 +1048,17 @@ class EndGame(tk.Frame):
         tk.Label(
             master=self,
             text="END GAME"
-        ).grid()
+        ).grid(row=0, column=1)
+        ttk.Button(
+            master=self,
+            text="Main Menu",
+            command=lambda: self.parent.switch_to(target=MainMenu(parent=self.parent))
+        ).grid(row=1, column=0, columnspan=3, sticky="sew")
+        ttk.Button(
+            master=self,
+            text="Quit",
+            command=exit
+        ).grid(row=2, column=0, columnspan=3, sticky="sew")
 
 class Player:
     players = []
@@ -1065,12 +1113,12 @@ class Player:
 
 class Stock:
     historical_value = {
-        "Gold": {},
-        "Silver": {},
-        "Oil": {},
-        "Bonds": {},
-        "Grain": {},
-        "Industrial": {}
+        "Gold": [1,0.5,2,0.75,0.8],
+        "Silver": [0.95,0.75,0.55,0.95,1],
+        "Oil": [],
+        "Bonds": [],
+        "Grain": [],
+        "Industrial": []
     }
 
     stock_value = {
@@ -1191,23 +1239,20 @@ class Game:
             stock_price = Stock.stock_value[stock_name[stock]]
             current_prices.append(stock_price)
         if Player.players[Game.curr_player].money < min(current_prices):
-            print("disabled")
             return tk.DISABLED
         else:
-            print("normal")
             return tk.NORMAL
 
     def can_sell_any():
+        """Sets state of action_frame 'Sell' buttons"""
         current_shares = []
         stock_name = list(Player.players[Game.curr_player].stocks)
         for value in range(len(Player.players[Game.curr_player].stocks)):
             stock_price = Player.players[Game.curr_player].stocks[stock_name[value]]
             current_shares.append(stock_price)
         if max(current_shares) == 0:
-            print("disabled")
             return tk.DISABLED
         else:
-            print("normal")
             return tk.NORMAL
 
 def main():
