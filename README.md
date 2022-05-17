@@ -42,7 +42,10 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 #### Things To Fix:
 
 * Player name page: Names can be left blank
-* Overall design needs sprucing up
+* Game Setup Page: Sell num frame does not display
+* Main Game Page: Buy num frame does not display
+* Main Game Page: Sell num frame does not display
+* Overall design needs improvement
 * About page: Needs improvement
 * Gameplay: After pressing 'Ok' on buy/sell, go to set [buy/sell] frame instead of action_frame
 
