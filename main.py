@@ -1051,31 +1051,63 @@ class EndGame(tk.Frame):
         # self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
+        def final_results():
+            #!Rank all players from first to last based on total money.
+            #!In Label at top of results_frame, have {Name} won! in big text
+            pass
+
         def end_loop():
             stock_keys = list(Player.players[Game.curr_player].stocks.keys())
             if Game.curr_player <= Game.num_players:
                 #sell off shares, show value of each stock
                 for index, name in enumerate(stock_keys):
-                    quantity = Player.max_sell(name)
+                    quantity = Player.max_sell(name) 
                     Player.sell_stock(name, quantity)
                     tk.Label(
                         master=results_frame,
-                        text=f"Value of {name} shares: {Stock.get_value(name, quantity)}",
+                        text=f"Value of {name} shares: {int(Stock.get_value(name, quantity))}",
                         bg=BGCOLOUR
-                    )
+                    ).grid(row=index, column=1, sticky="snew")
                 #display curr_players money in tk.Label
+                tk.Label(
+                    master=results_frame,
+                    text=f"{Player.current_player_name()} has ${Player.players[Game.curr_player].money}",
+                    bg=BGCOLOUR
+                ).grid(row=6, column=1, sticky='ew')
 
-                #wait a moment
-                #add 1 to Game.curr_player
-                #reload EndGame()
+                if Game.curr_player < Game.num_players-1:
+                    ttk.Button(
+                        master=results_frame,
+                        text="Next player",
+                        command=lambda: [Player.next_player(), self.parent.switch_to(target=EndGame(parent=self.parent))]
+                    ).grid(row=7, column=1, sticky='sew')
+                elif Game.curr_player == Game.num_players-1:
+                    ttk.Button(
+                        master=results_frame,
+                        text="See final results",
+                        command=lambda:[final_results()]
+                    ).grid(row=7, column=1, sticky="sew")
 
-                Game.curr_player += 1
+                
 
         tk.Label(
             master=self,
             text="End Game",
             bg=BGCOLOUR
         ).grid(row=0, column=0, columnspan=3, sticky='new')
+
+        cur_player = tk.LabelFrame(
+            master=self,
+            text="Current Player:",
+            bg=BGCOLOUR
+        )
+        cur_player.grid(row=1, column=1, sticky="new")
+
+        tk.Label(
+            master=cur_player,
+            text=Player.current_player_name(),
+            bg=BGCOLOUR
+        ).grid(row=1, column=1, sticky='snew')
 
         #Create number of player frames based on number of players chosen in newgame page
         self.player_grid = []
@@ -1149,12 +1181,13 @@ class EndGame(tk.Frame):
             text="Actions:",
             bg=BGCOLOUR
         )
-        results_frame.grid_rowconfigure(0, weight=1)
-        results_frame.grid_rowconfigure(1, weight=1)
-        results_frame.grid_rowconfigure(2, weight=1)
+        # results_frame.grid_rowconfigure(0, weight=1)
+        # results_frame.grid_rowconfigure(1, weight=1)
+        # results_frame.grid_rowconfigure(2, weight=1)
         results_frame.grid_columnconfigure(0, weight=1)
         results_frame.grid_columnconfigure(1, weight=1)
-        results_frame.grid(row=1, rowspan=4, column=1, sticky="nsew")
+        results_frame.grid_columnconfigure(2, weight=1)
+        results_frame.grid(row=2, rowspan=4, column=1, sticky="nsew")
 
         end_loop()
 
@@ -1190,6 +1223,9 @@ class Player:
 
     def current_player_name():
         return Player.players[Game.curr_player].name
+
+    def next_player():
+        Game.curr_player += 1
 
     def can_buy(stock):
         if Player.players[Game.curr_player].money >= Stock.stock_value[stock]:
