@@ -13,7 +13,7 @@ The object of the game is to buy and sell stocks, and by so doing accumulate a g
 * Dice get rolled at beginning of each player's turn.
 * Stock values change based on dice roll.
 * Stocks can pay dividends, double, and split.
-* Rounds get tracked and when final round concludes, execute end game page.
+* Rounds get tracked and results screen displays player scores.
 * About page with short description of game.
 * The 'Quit' button closes the program.
 
@@ -26,9 +26,10 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 * Main Game Page: Add notification bar
 * Main Game Page: Add option to save game
+* Main Game Page: Add button to roll the dice -> Create dice roll animation to go with it
 * Main Menu: Add option to load game
 * Main Menu: Add highscore list organized by number of rounds played
-* End Game Page: Add list of players ranked from most to least money
+* End Game Page.final_results: Rank all players based on amount of money 
 * General: Add networking option to allow self to play remotely together
 * General: Add bots?
 
@@ -37,7 +38,6 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Player name page: Names can be left blank
 * Overall design needs sprucing up
 * About page: Needs improvement
-* Game Setup Page: width of columns fluctuates slightly when going through menus
 * Gameplay: After pressing 'Ok' on buy/sell, go to set [buy/sell] frame instead of action_frame
 
 #### Inspiration:
