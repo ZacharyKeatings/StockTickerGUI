@@ -4,6 +4,7 @@ from tkinter import ttk
 import random
 import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 matplotlib.use('TkAgg')
 
@@ -47,7 +48,7 @@ class MainMenu(tk.Frame):
         ttk.Button(
             master=self,
             text="New Game",
-            command=lambda: self.parent.switch_to(target=NewGame(parent=self.parent))
+            command=lambda: [Stock.reset_values(), self.parent.switch_to(target=NewGame(parent=self.parent))]
         ).grid(row=1, column=0, columnspan=2, sticky="sew")
         ttk.Button(
             master=self,
@@ -71,11 +72,6 @@ class MainMenu(tk.Frame):
             text="Quit",
             command=exit
         ).grid(row=5, column=0, columnspan=2, sticky='sew')
-        ttk.Button(
-            master=self,
-            text="Test Button",
-            # command=lambda: [print(Stock.stock_value["Gold"])]
-        ).grid(row=6, column=0, columnspan=2, sticky='sew')
 
 
 class AboutPage(tk.Frame):
@@ -546,7 +542,7 @@ class GameSetup(tk.Frame):
             sell_num_frame = tk.LabelFrame(
                 master=self,
                 text="Choose amount:",
-                bg='BGCOLOUR'
+                bg=BGCOLOUR
             )
             sell_num_frame.grid_rowconfigure(0, weight=1)
             sell_num_frame.grid_rowconfigure(1, weight=1)
@@ -575,7 +571,7 @@ class GameSetup(tk.Frame):
             ttk.Button(
                 master=sell_num_frame,
                 text="Back",
-                command=lambda:[sell_num_frame.grid_forget(),set_sell_frame()]
+                command=lambda:[sell_num_frame.grid_forget(), set_sell_frame()]
             ).grid(row=3, column=0)
             
         ttk.Button(
@@ -673,9 +669,8 @@ class MainGame(tk.Frame):
         stock_graph_frame.grid(row=2, column=1, rowspan=3, sticky="snew")
 
         def graph():
-
-            stocks = Stock.stock_value.keys()
-            values = Stock.stock_value.values()
+            stocks = list(Stock.stock_value.keys())
+            values = list(Stock.stock_value.values())
 
             # create a figure
             figure = Figure()
@@ -687,43 +682,15 @@ class MainGame(tk.Frame):
             axes = figure.add_subplot()
             
             # create the barchart
-            axes.bar(stocks, values)
+            graph = axes.bar(stocks, values, color=['gold', 'silver', 'black', 'lightseagreen', 'navajowhite', 'lightpink'], edgecolor="black")
+            axes.bar_label(graph, label_type="edge")
+
             axes.set_ylabel('Current Value')
+            # axes.yaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
+
             figure_canvas.get_tk_widget().pack(fill="both", expand=1)
 
         graph()
-
-        # tk.Label(
-        #     master=stock_graph_frame,
-        #     text=f"Gold: ${Stock.stock_value['Gold']:.2f}",
-        #     bg=BGCOLOUR
-        # ).grid(row=0, column=0, sticky="snew")
-        # tk.Label(
-        #     master=stock_graph_frame,
-        #     text=f"Silver: ${Stock.stock_value['Silver']:.2f}",
-        #     bg=BGCOLOUR
-        # ).grid(row=1, column=0, sticky="snew")
-        # tk.Label(
-        #     master=stock_graph_frame,
-        #     text=f"Oil: ${Stock.stock_value['Oil']:.2f}",
-        #     bg=BGCOLOUR
-        # ).grid(row=2, column=0, sticky="snew")
-        # tk.Label(
-        #     master=stock_graph_frame,
-        #     text=f"Bonds: ${Stock.stock_value['Bonds']:.2f}",
-        #     bg=BGCOLOUR
-        # ).grid(row=0, column=1, sticky="snew")
-        # tk.Label(
-        #     master=stock_graph_frame,
-        #     text=f"Grain: ${Stock.stock_value['Grain']:.2f}",
-        #     bg=BGCOLOUR
-        # ).grid(row=1, column=1, sticky="snew")
-        # tk.Label(
-        #     master=stock_graph_frame,
-        #     text=f"Industrial: ${Stock.stock_value['Industrial']:.2f}",
-        #     bg=BGCOLOUR
-        # ).grid(row=2, column=1, sticky="snew")
-
 
         #Create number of player frames based on number of players chosen in newgame page
         self.player_grid = []
@@ -894,7 +861,7 @@ class MainGame(tk.Frame):
             buy_num_frame = tk.LabelFrame(
                 master=self,
                 text="Choose amount:",
-                bg='BGCOLOUR'
+                bg=BGCOLOUR
             )
             buy_num_frame.grid_rowconfigure(0, weight=1)
             buy_num_frame.grid_rowconfigure(1, weight=1)
@@ -995,7 +962,7 @@ class MainGame(tk.Frame):
             sell_num_frame = tk.LabelFrame(
                 master=self,
                 text="Choose amount:",
-                bg='BGCOLOUR'
+                bg=BGCOLOUR
             )
             sell_num_frame.grid_rowconfigure(0, weight=1)
             sell_num_frame.grid_rowconfigure(1, weight=1)
@@ -1019,7 +986,7 @@ class MainGame(tk.Frame):
             ttk.Button(
                 master=sell_num_frame,
                 text="Ok",
-                command=lambda:[Game.set_turn(), Player.buy_stock(stock, set_sell_amount.get()), self.parent.switch_to(target=MainGame(parent=self.parent))]
+                command=lambda:[Game.set_turn(), Player.sell_stock(stock, set_sell_amount.get()), self.parent.switch_to(target=MainGame(parent=self.parent))]
             ).grid(row=2, column=0)
             ttk.Button(
                 master=sell_num_frame,
@@ -1228,7 +1195,7 @@ class Player:
         Game.curr_player += 1
 
     def can_buy(stock):
-        if Player.players[Game.curr_player].money >= Stock.stock_value[stock]:
+        if Player.players[Game.curr_player].money >= Stock.stock_value[stock] * 500:
             return True
         else:
             return False
@@ -1257,14 +1224,6 @@ class Player:
 
 
 class Stock:
-    historical_value = {
-        "Gold": [1,0.5,2,0.75,0.8],
-        "Silver": [0.95,0.75,0.55,0.95,1],
-        "Oil": [],
-        "Bonds": [],
-        "Grain": [],
-        "Industrial": []
-    }
 
     stock_value = {
         "Gold": 1,
@@ -1306,6 +1265,24 @@ class Stock:
         value = amount * Stock.stock_value[stock]
         return value
 
+    def reset_values():
+        Stock.stock_value = {
+            "Gold": 1,
+            "Silver": 1,
+            "Oil": 1,
+            "Bonds": 1,
+            "Grain": 1,
+            "Industrial": 1
+        }
+
+        Game.num_players = 0
+        Game.curr_player = 0
+        Game.max_rounds = 0
+        Game.curr_round = 0
+        Game.turn = 0
+
+        Player.players = []
+
 
 class Dice:
     stock = ["Gold", "Silver", "Oil", "Bonds", "Grain", "Industrial"]
@@ -1333,7 +1310,7 @@ class Game:
     curr_player = 0
     max_rounds = 0
     curr_round = 0
-    move_counter = 0
+    # move_counter = 0
     turn = 0
 
     def set_players(players):
@@ -1359,11 +1336,11 @@ class Game:
             Game.curr_player += 1
         Game.turn = 0
 
-    def move_counter():
-        """Used in MainGame. If == 0, Dice.roll is called.
-        This enables a player to make multiple buy/sell actions
-        within a single turn without rerolling the dice each time."""
-        Game.move_counter += 1
+    # def move_counter():
+    #     """Used in MainGame. If == 0, Dice.roll is called.
+    #     This enables a player to make multiple buy/sell actions
+    #     within a single turn without rerolling the dice each time."""
+    #     Game.move_counter += 1
 
     def set_button_state(action, stock):
         """Set tkinter button state based on if player
@@ -1387,7 +1364,7 @@ class Game:
         for stock in range(len(Stock.stock_value)):
             stock_price = Stock.stock_value[stock_name[stock]]
             current_prices.append(stock_price)
-        if Player.players[Game.curr_player].money < min(current_prices):
+        if Player.players[Game.curr_player].money < (min(current_prices) * 500):
             return tk.DISABLED
         else:
             return tk.NORMAL
