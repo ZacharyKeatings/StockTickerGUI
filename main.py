@@ -3,15 +3,15 @@ import tkinter as tk
 from tkinter import ttk
 import random
 import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
+import gc
+gc.enable()
 
 matplotlib.use('TkAgg')
 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-BGCOLOUR = "gray"
+BGCOLOUR = "blanchedalmond"
 
 class MainWindow(tk.Tk):
 
@@ -206,8 +206,8 @@ class PlayerNamePage(tk.Frame):
         # create all 8 player widgets, but only pack based on num_players
         for num in range(Game.num_players):
             self.grid_rowconfigure(num + 1, weight=1)
-            tk.Label(master=self, text=f"Player {num + 1}:", bg=BGCOLOUR).grid(row=num + 1, column=1, sticky="w")
-            tk.Entry(master=self, textvariable=self.name_list[num]).grid(row=num + 1, column=1, sticky="e")
+            tk.Label(master=self, text=f"Player {num + 1}:", bg=BGCOLOUR).grid(row=num + 1, column=1, sticky="nw")
+            tk.Entry(master=self, textvariable=self.name_list[num]).grid(row=num + 1, column=1, sticky="ne")
             ttk.Button(master=self, text="Submit",
                        command=lambda: [set_names(), self.parent.switch_to(target=GameSetup(parent=self.parent))]
                       ).grid(row=9, column=1, sticky="new")
@@ -235,16 +235,12 @@ class GameSetup(tk.Frame):
     def __init__(self, parent: MainWindow):
         tk.Frame.__init__(self, master=parent, bg=BGCOLOUR)
         self.parent = parent
-        # self.grid_rowconfigure(0, weight=1)
-        # self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
         self.grid_rowconfigure(4, weight=1)
         self.grid_rowconfigure(5, weight=1)
         self.grid_rowconfigure(6, weight=1)
-        # self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
-        # self.grid_columnconfigure(2, weight=1)
 
         def finish_setup():
             if Game.curr_player == Game.num_players-1:
@@ -596,15 +592,12 @@ class MainGame(tk.Frame):
     def __init__(self, parent: MainWindow):
         tk.Frame.__init__(self, master=parent, bg=BGCOLOUR)
         self.parent = parent
-        # self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
         self.grid_rowconfigure(4, weight=1)
         self.grid_rowconfigure(5, weight=1)
         self.grid_rowconfigure(6, weight=1)
-        # self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
-        # self.grid_columnconfigure(2, weight=1)
 
         def finish_game():
             if Game.curr_round > Game.max_rounds:
@@ -673,7 +666,7 @@ class MainGame(tk.Frame):
             values = list(Stock.stock_value.values())
 
             # create a figure
-            figure = Figure()
+            figure = Figure(facecolor=BGCOLOUR)
 
             # create FigureCanvasTkAgg object
             figure_canvas = FigureCanvasTkAgg(figure, stock_graph_frame)
@@ -684,9 +677,9 @@ class MainGame(tk.Frame):
             # create the barchart
             graph = axes.bar(stocks, values, color=['gold', 'silver', 'black', 'lightseagreen', 'navajowhite', 'lightpink'], edgecolor="black")
             axes.bar_label(graph, label_type="edge")
-
+            axes.set_facecolor(BGCOLOUR)
             axes.set_ylabel('Current Value')
-            # axes.yaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
+            axes.axhline(y=1,linewidth=1, color='red')
 
             figure_canvas.get_tk_widget().pack(fill="both", expand=1)
 
@@ -1010,12 +1003,7 @@ class EndGame(tk.Frame):
     def __init__(self, parent: MainWindow):
         tk.Frame.__init__(self, master=parent, bg=BGCOLOUR)
         self.parent = parent
-        # self.grid_rowconfigure(2, weight=1)
-        # self.grid_rowconfigure(3, weight=1)
-        # self.grid_rowconfigure(4, weight=1)
         self.grid_rowconfigure(5, weight=1)
-        # self.grid_rowconfigure(6, weight=1)
-        # self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
         def final_results():
@@ -1056,7 +1044,6 @@ class EndGame(tk.Frame):
                     ).grid(row=7, column=1, sticky="sew")
 
                 
-
         tk.Label(
             master=self,
             text="End Game",
@@ -1148,9 +1135,6 @@ class EndGame(tk.Frame):
             text="Actions:",
             bg=BGCOLOUR
         )
-        # results_frame.grid_rowconfigure(0, weight=1)
-        # results_frame.grid_rowconfigure(1, weight=1)
-        # results_frame.grid_rowconfigure(2, weight=1)
         results_frame.grid_columnconfigure(0, weight=1)
         results_frame.grid_columnconfigure(1, weight=1)
         results_frame.grid_columnconfigure(2, weight=1)
@@ -1310,7 +1294,6 @@ class Game:
     curr_player = 0
     max_rounds = 0
     curr_round = 0
-    # move_counter = 0
     turn = 0
 
     def set_players(players):
@@ -1335,12 +1318,6 @@ class Game:
         else:
             Game.curr_player += 1
         Game.turn = 0
-
-    # def move_counter():
-    #     """Used in MainGame. If == 0, Dice.roll is called.
-    #     This enables a player to make multiple buy/sell actions
-    #     within a single turn without rerolling the dice each time."""
-    #     Game.move_counter += 1
 
     def set_button_state(action, stock):
         """Set tkinter button state based on if player
