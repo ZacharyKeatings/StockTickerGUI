@@ -3,8 +3,6 @@ import tkinter as tk
 from tkinter import ttk
 import random
 import matplotlib
-import gc
-gc.enable()
 
 matplotlib.use('TkAgg')
 
