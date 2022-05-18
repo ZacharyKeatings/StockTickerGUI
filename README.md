@@ -28,8 +28,6 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Main Game Page: Add notification bar
 * Main Game Page: Add option to save game
 * Main Game Page: Add button to roll the dice -> Create dice roll animation to go with it
-* Main Game Page/End Game Page: Change all float values to int
-* Main Game Page.graph: Create line at 1 value on graph for easier readability of which stocks payout and which don't
 * Main Menu: Add option to load game
 * Main Menu: Add highscore list organized by number of rounds played
 * End Game Page.final_results: Rank all players based on amount of money 
@@ -38,6 +36,8 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### Things To Fix:
 
+* Memory usage increases for every page loaded. Once memory usage exceeds 1gb, program glitches and freezes.
+* Main Game Page/End Game Page: Change all float values to int
 * Player name page: Names can be left blank
 * Overall design needs improvement
 * About page: Needs improvement
