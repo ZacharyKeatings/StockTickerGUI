@@ -29,10 +29,7 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Main Game Page: Add option to save game
 * Main Game Page: Add button to roll the dice -> Create dice roll animation to go with it
 * Main Game Page/End Game Page: Change all float values to int
-* Main Game Page: Add current stock value to every stock in graph
-* Main Game Page: Set static graph values
-* Main Game Page: Set unique colour for each stock
-* Main Game Page: Create line at 1 for easier readability of which stocks payout and which don't
+* Main Game Page.graph: Create line at 1 value on graph for easier readability of which stocks payout and which don't
 * Main Menu: Add option to load game
 * Main Menu: Add highscore list organized by number of rounds played
 * End Game Page.final_results: Rank all players based on amount of money 
@@ -42,9 +39,6 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 #### Things To Fix:
 
 * Player name page: Names can be left blank
-* Game Setup Page: Sell num frame does not display
-* Main Game Page: Buy num frame does not display
-* Main Game Page: Sell num frame does not display
 * Overall design needs improvement
 * About page: Needs improvement
 * Gameplay: After pressing 'Ok' on buy/sell, go to set [buy/sell] frame instead of action_frame
