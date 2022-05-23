@@ -3,3 +3,16 @@ guideline.txt
 images/StockTickerLogo.jpg
 Roadmap.txt
 Mock-Up.ods
+__pycache__/AboutPage.cpython-310.pyc
+__pycache__/Dice.cpython-310.pyc
+__pycache__/EndGame.cpython-310.pyc
+__pycache__/Game.cpython-310.pyc
+__pycache__/GameSetup.cpython-310.pyc
+__pycache__/main.cpython-310.pyc
+__pycache__/MainGame.cpython-310.pyc
+__pycache__/MainMenu.cpython-310.pyc
+__pycache__/NewGame.cpython-310.pyc
+__pycache__/Player.cpython-310.pyc
+__pycache__/PlayerNamePage.cpython-310.pyc
+__pycache__/Stock.cpython-310.pyc
+main - Copy.py
