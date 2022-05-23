@@ -36,7 +36,8 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### Things To Fix:
 
-* Memory usage increases for every page loaded. Once memory usage exceeds 1gb, program glitches and freezes.
+* Memory usage increases for every page loaded. Once memory usage reaches between 500mb to 1000mb, program hangs.
+   -> Potential fix: Rewrite 'End Turn' command to refresh each frame, and update matplotlib figure instead of reloading entire page.
 * Main Game Page/End Game Page: Change all float values to int
 * Player name page: Names can be left blank
 * Overall design needs improvement
