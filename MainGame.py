@@ -49,7 +49,7 @@ class MainGame(tk.Frame):
             # set_notification_frame()
 
             #player_grid
-            player_stats()
+            Game.Game.set_player_frames(self)
 
             #action
             set_action_frame()
@@ -65,9 +65,6 @@ class MainGame(tk.Frame):
             if Game.Game.curr_round > Game.Game.max_rounds:
                 Game.Game.curr_player = 0
                 self.parent.switch_to(target=EndGame.EndGame(parent=self.parent))
-            # elif Game.Game.curr_round < Game.Game.max_rounds:
-                # self.destroy()
-                # self.parent.switch_to(target=MainGame(parent=self.parent))
 
         tk.Label(
             master=self,
@@ -164,78 +161,7 @@ class MainGame(tk.Frame):
 
         create_bar()
 
-        # def remove_bar():
-        #     self.canvas.get_tk_widget
-
-        def player_stats():
-            #Create number of player frames based on number of players chosen in newgame page
-            self.player_grid = []
-            for num in range(Game.Game.num_players):
-                widget = tk.LabelFrame(
-                    master=self,
-                    text=f"{Player.Player.players[num].name}:",
-                    bg=main.BGCOLOUR
-                )
-                self.player_grid.append(widget)
-
-            #display all player frames on page that was just created above
-            for num in range(Game.Game.num_players):
-                if num == 0:
-                    self.player_grid[0].grid(row=2, column=0, sticky="nsew")
-                if num == 1:
-                    self.player_grid[1].grid(row=2, column=2, sticky='nsew')
-                if num == 2:
-                    self.player_grid[2].grid(row=3, column=0, sticky='nsew')
-                if num == 3:
-                    self.player_grid[3].grid(row=3, column=2, sticky='nsew')
-                if num == 4:
-                    self.player_grid[4].grid(row=4, column=0, sticky='nsew')
-                if num == 5:
-                    self.player_grid[5].grid(row=4, column=2, sticky='nsew')
-                if num == 6:
-                    self.player_grid[6].grid(row=5, column=0, sticky='nsew')
-                if num == 7:
-                    self.player_grid[7].grid(row=5, column=2, sticky='nsew')
-            
-            #Create all content to populate player frames
-            for num in range(Game.Game.num_players):
-                tk.Label(
-                    master=self.player_grid[num],
-                    text=f"Money: {int(Player.Player.players[num].money)}",
-                    bg=main.BGCOLOUR
-                ).grid(row=0, column=0, sticky='w')
-                tk.Label(
-                    master=self.player_grid[num],
-                    text=f"Gold: {Player.Player.players[num].stocks['Gold']}",
-                    bg=main.BGCOLOUR
-                ).grid(row=1, column=0, sticky='w')
-                tk.Label(
-                    master=self.player_grid[num],
-                    text=f"Silver: {Player.Player.players[num].stocks['Silver']}",
-                    bg=main.BGCOLOUR
-                ).grid(row=2, column=0, sticky='w')
-                tk.Label(
-                    master=self.player_grid[num],
-                    text=f"Oil: {Player.Player.players[num].stocks['Oil']}",
-                    bg=main.BGCOLOUR
-                ).grid(row=3, column=0, sticky='w')
-                tk.Label(
-                    master=self.player_grid[num],
-                    text=f"Bonds: {Player.Player.players[num].stocks['Bonds']}",
-                    bg=main.BGCOLOUR
-                ).grid(row=1, column=1, sticky='w')
-                tk.Label(
-                    master=self.player_grid[num],
-                    text=f"Grain: {Player.Player.players[num].stocks['Grain']}",
-                    bg=main.BGCOLOUR
-                ).grid(row=2, column=1, sticky='w')
-                tk.Label(
-                    master=self.player_grid[num],
-                    text=f"Industrial: {Player.Player.players[num].stocks['Industrial']}",
-                    bg=main.BGCOLOUR
-                ).grid(row=3, column=1, sticky='w')
-
-        player_stats()
+        Game.Game.set_player_frames(self)
 
         def set_action_frame():
             action_frame = tk.LabelFrame(
@@ -363,7 +289,7 @@ class MainGame(tk.Frame):
             ttk.Button(
                 master=buy_num_frame,
                 text="Ok",
-                command=lambda:[Game.Game.set_turn(), Player.Player.buy_stock(stock, set_buy_amount.get()), player_stats()]
+                command=lambda:[Game.Game.set_turn(), Player.Player.buy_stock(stock, set_buy_amount.get()), Game.Game.set_player_frames(self), set_action_state("Buy")]
             ).grid(row=2, column=0)
             ttk.Button(
                 master=buy_num_frame,
@@ -464,7 +390,7 @@ class MainGame(tk.Frame):
             ttk.Button(
                 master=sell_num_frame,
                 text="Ok",
-                command=lambda:[Game.Game.set_turn(), Player.Player.sell_stock(stock, set_sell_amount.get()), self.parent.switch_to(target=MainGame(parent=self.parent))]
+                command=lambda:[Game.Game.set_turn(), Player.Player.sell_stock(stock, set_sell_amount.get()), Game.Game.set_player_frames(self), set_action_state("Sell")]
             ).grid(row=2, column=0)
             ttk.Button(
                 master=sell_num_frame,
@@ -472,6 +398,19 @@ class MainGame(tk.Frame):
                 command=lambda:[sell_num_frame.grid_forget(), set_sell_frame()]
             ).grid(row=3, column=0)
             
+        def set_action_state(action):
+            '''action is menu player is currently in.'''
+            if action == "Sell":
+                if Player.Player.can_sell_any():
+                    set_sell_frame()
+                else:
+                    set_action_frame()
+            elif action == "Buy":
+                if Player.Player.can_buy_any():
+                    set_buy_frame()
+                else:
+                    set_action_frame()
+
         ttk.Button(
             master=self,
             text="Main Menu",

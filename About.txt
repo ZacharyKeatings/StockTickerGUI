@@ -1,0 +1,14 @@
+Stocks:
+- There are six stocks: Gold, Silver, Oil, Bonds, Grain, Industrial
+- Each stock starts at $1.00 per share
+- Players can buy shares in increments of 500
+- At the beginning of each turn, 3 dice are rolled. The faces on each die are as follows:
+    -> Names: Gold, Silver, Oil, Bonds, Grain, Industrial
+    -> Action: Up, Down, Dividend
+    -> Amount: 5, 10, 20
+- The values of the stocks change based on the dice roll. 
+- If the roll is Gold Up 20, the value of Gold will increase by $0.20. 
+- If the roll is Gold Down 20, the value of Gold will decrease by $0.20.
+- Dividends only get applied to stocks valued at $1.00 or higher. Players holding shares of the stock get paid a certain amount.
+- If a stock value is at or above $2.00, the stock doubles. This means the value is reset to $1.00 and any player holding shares get the amount doubled.
+- If a stock hits $0.00, the value gets reset to $1.00 and all players lose all shares they hold of that stock.

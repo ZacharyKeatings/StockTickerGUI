@@ -29,11 +29,16 @@ class PlayerNamePage(tk.Frame):
         self.name_list = [self.p1_name, self.p2_name, self.p3_name, self.p4_name, 
                           self.p5_name, self.p6_name, self.p7_name, self.p8_name]
 
+        def check_empty_name():
+            #Check that names are empty. If they are, display message "Name cannot be blank". If they are filled in, run set names and switch to gamesetup.
+            pass
+
         def set_names():
-            Player.Player.players.clear()
+            # Player.Player.players.clear()
             for player_name in range(Game.Game.num_players):
                 player = Player.Player(name=self.name_list[player_name].get())
                 Player.Player.players.append(player)
+                print(self.name_list[player_name].get())
 
         # create all 8 player widgets, but only pack based on num_players
         for num in range(Game.Game.num_players):
