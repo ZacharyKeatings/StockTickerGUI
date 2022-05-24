@@ -49,20 +49,20 @@ class MainGame(tk.Frame):
             #Move to next player
             Game.Game.next_player()
 
-            #curr_player
-            set_curr_player_frame()
-
             #round
             set_round_frame()
-
-            #player_grid
-            Game.Game.set_player_frames(self)
 
             #action
             set_action_frame()
 
             #dice_role
             set_dice_frame()
+
+            #player_grid
+            Game.Game.set_player_frames(self)
+
+            #curr_player
+            set_curr_player_frame()
 
             #stock_graph
             create_bar()
@@ -93,7 +93,6 @@ class MainGame(tk.Frame):
                 text=Player.Player.current_player_name(),
                 bg=main.BGCOLOUR
             ).grid(row=0, column=0, sticky="snew")
-
 
         def set_dice_frame():
             #dice roll frame
@@ -128,8 +127,6 @@ class MainGame(tk.Frame):
                 text=f"{Game.Game.curr_round} / {Game.Game.max_rounds}",
                 bg=main.BGCOLOUR
             ).grid(row=0, column=0, sticky="snew")
-
-        set_round_frame()
 
         #Stock Graph Frame
         stock_graph_frame = tk.LabelFrame(
@@ -167,10 +164,6 @@ class MainGame(tk.Frame):
             axes.set_ylabel('Current Value')
             axes.axhline(y=1,linewidth=1, color='red')
 
-        create_bar()
-
-        Game.Game.set_player_frames(self)
-
         def set_action_frame():
             action_frame = tk.LabelFrame(
                 master=self,
@@ -202,9 +195,15 @@ class MainGame(tk.Frame):
                 command=lambda: [end_turn()]
             ).grid(row=2, column=0)
 
+        create_bar()
+
+        set_round_frame()
+
         set_action_frame()
 
         set_dice_frame()
+
+        Game.Game.set_player_frames(self)
 
         set_curr_player_frame()
 
