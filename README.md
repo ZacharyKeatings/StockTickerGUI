@@ -3,11 +3,15 @@ A graphical version of Stock Ticker
 
 ## Stock Ticker
 
-The object of the game is to buy and sell stocks, and by so doing accumulate a greater amount of money than the other self. The winner is decided by setting a time limit at the start of the game, and is the person having the greatest amount of money when time elapses, after selling his stocks back to the Broker at their final market value.
+The object of the game is to buy and sell stock shares within a set number of rounds. As the game plays, stock values can fluctuate dramatically. At the end of the final round, all shares are sold off at market value, and the player with the most money is declared the winner.
+
+Number of players: 2 - 8
+
+Number of rounds: 1 - 100
 
 #### Features:
 
-* Can choose number of self and number of rounds.
+* Can choose number of players and number of rounds.
 * Players can be given custom names.
 * Players can buy and sell stocks.
 * Dice get rolled at beginning of each player's turn.
@@ -31,12 +35,13 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Main Menu: Add option to load game
 * Main Menu: Add highscore list organized by number of rounds played
 * End Game Page.final_results: Rank all players based on amount of money 
-* General: Add networking option to allow self to play remotely together
+* General: Add networking option to allow players to play remotely together
 * General: Add bots?
 
 #### Things To Fix:
 
-* Memory usage increases for every page loaded. Once memory usage reaches between 500mb to 1000mb, program hangs.
+* Memory usage increases for every page loaded. Every turn adds 2 to 4.5mb to memory. Program glitches after some time.
+   
    -> I am unable to fix memory usage issues at this moment.
 * Main Game Page: graph fram slightly changes size in first several rounds.
 * Player name page: Names can be left blank
