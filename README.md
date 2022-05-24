@@ -4,7 +4,9 @@ A graphical version of Stock Ticker
 ## Stock Ticker
 
 The object of the game is to buy and sell stock shares within a set number of rounds. As the game plays, stock values can fluctuate dramatically. At the end of the final round, all shares are sold off at market value, and the player with the most money is declared the winner.
+
 Number of players: 2 - 8
+
 Number of rounds: 1 - 100
 
 #### Features:
@@ -39,6 +41,7 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 #### Things To Fix:
 
 * Memory usage increases for every page loaded. Every turn adds 2 to 4.5mb to memory. Program glitches after some time.
+   
    -> I am unable to fix memory usage issues at this moment.
 * Main Game Page: graph fram slightly changes size in first several rounds.
 * Player name page: Names can be left blank
