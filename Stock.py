@@ -1,3 +1,5 @@
+import tkinter as tk
+import main
 import Game
 import Player
 
@@ -26,7 +28,7 @@ class Stock:
         if Stock.stock_value[stock] < .05:
             Stock.split_stock(stock)
 
-    def dividend(stock, amount):
+    def dividend(stock, amount, parent):
         '''When Dice.roll() action == Dividend,
         payout based on formula:
         player share amount * Dice.roll() amount%'''
@@ -34,8 +36,15 @@ class Stock:
         if Stock.stock_value[stock] >= 1:
             for i, v in enumerate(Player.Player.players):
                 bonus = Player.Player.players[i].stocks[stock] * dividend
-                Player.Player.players[i].money += int(bonus)
+                bonus = int(bonus)
+                Player.Player.players[i].money += bonus
                 Player.Player.players[i].money = int(Player.Player.players[i].money)
+                if bonus > 0:
+                    tk.Label(
+                        master=parent,
+                        text=f"{Player.Player.players[i].name} received a dividend payout of ${bonus}!",
+                        bg=main.BGCOLOUR
+                    ).grid(row=i+1, column=1, sticky='nsew')
 
     def double_stock(stock):
         '''Called when share value hits 2.

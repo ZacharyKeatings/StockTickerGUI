@@ -18,5 +18,4 @@ class Dice:
             Stock.Stock.decrease_value(stock, amount)
             return stock, action, amount
         else:
-            Stock.Stock.dividend(stock, amount)
             return stock, action, amount

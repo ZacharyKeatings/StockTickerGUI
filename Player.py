@@ -6,7 +6,7 @@ class Player:
 
     def __init__(self, name):
         self.name = name
-        self.money = 500000
+        self.money = 5000
         self.stocks = {
             "Gold": 0,
             "Silver": 0,
@@ -45,6 +45,14 @@ class Player:
             return True
         else:
             return False
+
+    def any_holding(stock):
+        any_has = False
+        if Stock.Stock.stock_value[stock] >= 1:
+            for i in range(Game.Game.num_players):
+                if int(Player.players[i].stocks[stock]) > 0:
+                    any_has = True
+        return any_has
 
     def can_sell_any():
         sell = False

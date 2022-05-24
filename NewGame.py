@@ -64,7 +64,7 @@ class NewGame(tk.Frame):
         ttk.Button(
             master=self,
             text="Main Menu",
-            command=lambda: self.parent.switch_to(target=MainMenu(parent=self.parent))
+            command=lambda: self.parent.switch_to(target=MainMenu.MainMenu(parent=self.parent))
         ).grid(row=6, column=0, columnspan=3, sticky="sew")
         ttk.Button(
             master=self,

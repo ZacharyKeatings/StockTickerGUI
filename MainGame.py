@@ -26,27 +26,34 @@ class MainGame(tk.Frame):
         self.grid_rowconfigure(6, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
-        def set_notification_frame():
+        def set_notification_frame(stock, amount):
+            #if no players hold current stock, don't call
             notification_frame = tk.LabelFrame(
                     master=self,
                     text="Dividend Payouts:",
                     bg=main.BGCOLOUR
                 )
-            notification_frame.grid(row=2, column=1, rowspan=3, sticky="snew")
-
+            notification_frame.grid(row=2, column=1, rowspan=4, sticky="snew")
+            notification_frame.grid_rowconfigure(9, weight=1)
+            notification_frame.grid_columnconfigure(0, weight=1)
+            notification_frame.grid_columnconfigure(1, weight=1)
+            notification_frame.grid_columnconfigure(2, weight=1)
+            Stock.Stock.dividend(stock, amount, notification_frame)
+            ttk.Button(
+                master=notification_frame,
+                text="Ok",
+                command=lambda: [notification_frame.grid_forget(), set_action_frame()]
+            ).grid(row=9, column=1, sticky="sew")
 
         def end_turn():
+            #Move to next player
+            Game.Game.next_player()
+
             #curr_player
             set_curr_player_frame()
 
             #round
             set_round_frame()
-
-            #dice_role
-            set_dice_frame()
-
-            #Notification bar
-            # set_notification_frame()
 
             #player_grid
             Game.Game.set_player_frames(self)
@@ -54,12 +61,13 @@ class MainGame(tk.Frame):
             #action
             set_action_frame()
 
+            #dice_role
+            set_dice_frame()
+
             #stock_graph
             create_bar()
 
-            Game.Game.next_player()
             finish_game()
-
 
         def finish_game():
             if Game.Game.curr_round > Game.Game.max_rounds:
@@ -86,7 +94,6 @@ class MainGame(tk.Frame):
                 bg=main.BGCOLOUR
             ).grid(row=0, column=0, sticky="snew")
 
-        set_curr_player_frame()
 
         def set_dice_frame():
             #dice roll frame
@@ -103,9 +110,10 @@ class MainGame(tk.Frame):
                     master=dice_roll_frame,
                     text=f"{stock} {action} {amount}",
                     bg=main.BGCOLOUR
-                ).grid(row=0, column=0, sticky="snew")       
-
-        set_dice_frame()
+                ).grid(row=0, column=0, sticky="snew")
+                if action == "Dividend":
+                    if Player.Player.any_holding(stock):
+                        set_notification_frame(stock, amount)
 
         def set_round_frame():
             #round frame
@@ -195,6 +203,10 @@ class MainGame(tk.Frame):
             ).grid(row=2, column=0)
 
         set_action_frame()
+
+        set_dice_frame()
+
+        set_curr_player_frame()
 
         def set_buy_frame():
 

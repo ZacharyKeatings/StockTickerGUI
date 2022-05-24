@@ -38,7 +38,6 @@ class PlayerNamePage(tk.Frame):
             for player_name in range(Game.Game.num_players):
                 player = Player.Player(name=self.name_list[player_name].get())
                 Player.Player.players.append(player)
-                print(self.name_list[player_name].get())
 
         # create all 8 player widgets, but only pack based on num_players
         for num in range(Game.Game.num_players):
