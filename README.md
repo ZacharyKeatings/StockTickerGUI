@@ -44,7 +44,6 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Player name page: Names can be left blank
 * Overall design needs improvement
 * About page: Needs improvement
-* Main Game Page/End Game Page: After pressing 'Ok' on buy/sell, go to set [buy/sell] frame instead of action_frame
 
 #### Inspiration:
 
