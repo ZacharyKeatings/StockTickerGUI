@@ -39,12 +39,9 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Memory usage increases for every page loaded. Once memory usage reaches between 500mb to 1000mb, program hangs.
    -> I am unable to fix memory usage issues at this moment.
 * Main Game Page: graph fram slightly changes size in first several rounds.
-* Main Game Page/End Game Page: Change all float values to int.
-   -> All calculations should change datatype to int from possible float.
 * Player name page: Names can be left blank
 * Overall design needs improvement
 * About page: Needs improvement
-* Main Game Page/End Game Page: After pressing 'Ok' on buy/sell, go to set [buy/sell] frame instead of action_frame
 
 #### Inspiration:
 
