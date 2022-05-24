@@ -29,7 +29,6 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### To-Do:
 
-* Main Game Page: Add notification bar
 * Main Game Page: Add option to save game
 * Main Game Page: Add button to roll the dice -> Create dice roll animation to go with it
 * Main Menu: Add option to load game
@@ -43,7 +42,7 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Memory usage increases for every page loaded. Every turn adds 2 to 4.5mb to memory. Program glitches after some time.
    
    -> I am unable to fix memory usage issues at this moment.
-* Main Game Page: graph fram slightly changes size in first several rounds.
+* Main Game Page: graph frame slightly changes size in first several rounds.
 * Player name page: Names can be left blank
 * Overall design needs improvement
 * About page: Needs improvement
