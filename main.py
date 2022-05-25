@@ -9,7 +9,7 @@ class MainWindow(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
         self.title("Stock Ticker")
-        self.geometry("800x600")
+        self.geometry("1024x768+0+0")
         self.iconbitmap("./images/icon.ico")
         self.mainmenu = MainMenu.MainMenu(parent=self)
         self.current = self.mainmenu

@@ -8,12 +8,12 @@ class Player:
         self.name = name
         self.money = 5000
         self.stocks = {
-            "Gold": 1000,
-            "Silver": 1000,
-            "Oil": 1000,
-            "Bonds": 1000,
-            "Grain": 1000,
-            "Industrial": 1000
+            "Gold": 0,
+            "Silver": 0,
+            "Oil": 0,
+            "Bonds": 0,
+            "Grain": 0,
+            "Industrial": 0
         }
 
     def create_player():

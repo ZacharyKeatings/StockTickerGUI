@@ -45,8 +45,6 @@ class GameSetup(tk.Frame):
             bg=main.BGCOLOUR
         ).grid(row=1, column=1, sticky='snew')
 
-        Game.Game.set_player_frames(self)
-
         def set_action_frame():
             action_frame = tk.LabelFrame(
                 master=self,
@@ -77,8 +75,6 @@ class GameSetup(tk.Frame):
                 text="End Turn",
                 command=lambda: [finish_setup()]
             ).grid(row=2, column=0)
-
-        set_action_frame()
 
         def set_buy_frame():
 
@@ -173,7 +169,7 @@ class GameSetup(tk.Frame):
             ttk.Button(
                 master=buy_num_frame,
                 text="Ok",
-                command=lambda:[Player.Player.buy_stock(stock, set_buy_amount.get()), self.parent.switch_to(target=GameSetup(parent=self.parent))]
+                command=lambda:[Player.Player.buy_stock(stock, set_buy_amount.get()), Game.Game.set_player_frames(self), set_action_state("Buy")]
             ).grid(row=2, column=0)
             ttk.Button(
                 master=buy_num_frame,
@@ -274,7 +270,7 @@ class GameSetup(tk.Frame):
             ttk.Button(
                 master=sell_num_frame,
                 text="Ok",
-                command=lambda:[Player.Player.sell_stock(stock, set_sell_amount.get()), self.parent.switch_to(target=GameSetup(parent=self.parent))]
+                command=lambda:[Player.Player.sell_stock(stock, set_sell_amount.get()), Game.Game.set_player_frames(self), set_action_state("Buy")]
             ).grid(row=2, column=0)
             ttk.Button(
                 master=sell_num_frame,
@@ -282,6 +278,23 @@ class GameSetup(tk.Frame):
                 command=lambda:[sell_num_frame.grid_forget(), set_sell_frame()]
             ).grid(row=3, column=0)
             
+        def set_action_state(action):
+            '''action is menu player is currently in.'''
+            if action == "Sell":
+                if Player.Player.can_sell_any():
+                    set_sell_frame()
+                else:
+                    set_action_frame()
+            elif action == "Buy":
+                if Player.Player.can_buy_any():
+                    set_buy_frame()
+                else:
+                    set_action_frame()
+
+        Game.Game.set_player_frames(self)
+
+        set_action_frame()
+
         ttk.Button(
             master=self,
             text="Back",
