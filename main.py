@@ -13,7 +13,6 @@ class MainWindow(tk.Tk):
         self.iconbitmap("./images/icon.ico")
         self.mainmenu = MainMenu.MainMenu(parent=self)
         self.current = self.mainmenu
-
         self.mainmenu.pack(fill="both", expand=1)
 
     def switch_to(self, target):

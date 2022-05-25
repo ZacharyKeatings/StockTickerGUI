@@ -195,8 +195,6 @@ class MainGame(tk.Frame):
                 command=lambda: [end_turn()]
             ).grid(row=2, column=0)
 
-        create_bar()
-
         set_round_frame()
 
         set_action_frame()
@@ -206,6 +204,8 @@ class MainGame(tk.Frame):
         Game.Game.set_player_frames(self)
 
         set_curr_player_frame()
+
+        create_bar()
 
         def set_buy_frame():
 
