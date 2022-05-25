@@ -33,15 +33,12 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Main Game Page: Add button to roll the dice -> Create dice roll animation to go with it
 * Main Menu: Add option to load game
 * Main Menu: Add highscore list organized by number of rounds played
-* End Game Page.final_results: Rank all players based on amount of money 
 * General: Add networking option to allow players to play remotely together
 * General: Add bots?
 
 #### Things To Fix:
 
-* Memory usage increases for every page loaded. Every turn adds 2 to 4.5mb to memory. Program glitches after some time.
-   
-   -> I am unable to fix memory usage issues at this moment.
+* Memory usage increases for every page loaded. Every turn adds 2 to 4.5mb to memory. Program glitches after some time. I am unable to fix memory usage issues at this moment.
 * Main Game Page: graph frame slightly changes size in first several rounds.
 * Player name page: Names can be left blank
 * Overall design needs improvement
