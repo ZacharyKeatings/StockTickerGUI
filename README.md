@@ -38,7 +38,6 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### Things To Fix:
 
-* Memory usage increases for every page loaded. Every turn adds 2 to 4.5mb to memory. Program glitches after some time. I am unable to fix memory usage issues at this moment.
 * Main Game Page: graph frame slightly changes size in first several rounds.
 * Player name page: Names can be left blank
 * Overall design needs improvement
