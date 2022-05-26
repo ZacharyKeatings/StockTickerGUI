@@ -38,8 +38,9 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### Things To Fix:
 
-* Main Game Page: graph frame slightly changes size in first several rounds.
 * Player name page: Names can be left blank
+* Final results: Winner is not included in player ranking list
+* Main Game: need to destroy many frames instead of stacking on top, causing buggy behaviour after awhile
 * Overall design needs improvement
 * About page: Needs improvement
 
