@@ -12,7 +12,9 @@ import matplotlib
 matplotlib.use('TkAgg')
 
 from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 
 
 class MainGame(tk.Frame):
@@ -25,6 +27,38 @@ class MainGame(tk.Frame):
         self.grid_rowconfigure(5, weight=1)
         self.grid_rowconfigure(6, weight=1)
         self.grid_columnconfigure(1, weight=1)
+
+        self.stocks = list(Stock.Stock.stock_value.keys())
+        self.values = list(Stock.Stock.stock_value.values())
+
+        #Stock Graph Frame
+        stock_graph_frame = tk.LabelFrame(
+            master=self,
+            text="Stock Prices:",
+            bg=main.BGCOLOUR
+        )
+        stock_graph_frame.grid(row=2, column=1, rowspan=3, sticky="snew")
+        
+
+
+        # create a figure
+        figure = plt.figure(facecolor=main.BGCOLOUR)
+
+        # create FigureCanvasTkAgg object
+        canvas = FigureCanvasTkAgg(figure, stock_graph_frame)
+        canvas = canvas.get_tk_widget()
+        canvas.pack(fill="both", expand=1)
+
+        # create axes
+        axes = figure.add_subplot()
+        
+        # create the barchart
+        graph = axes.bar(self.stocks, self.values, color=['gold', 'silver', 'burlywood', 'lightseagreen', 'navajowhite', 'lightpink'], edgecolor="black")
+        axes.bar_label(graph, label_type="edge")
+        axes.set_facecolor(main.BGCOLOUR)
+        axes.set_ylabel('Current Value')
+        axes.axhline(y=1,linewidth=1, color='red')
+        plt.yticks([0, 0.5, 1, 1.5, 2], [0, 0.5, 1, 1.5, 2])
 
         def set_notification_frame(stock, amount):
             #if no players hold current stock, don't call
@@ -128,41 +162,20 @@ class MainGame(tk.Frame):
                 bg=main.BGCOLOUR
             ).grid(row=0, column=0, sticky="snew")
 
-        #Stock Graph Frame
-        stock_graph_frame = tk.LabelFrame(
-            master=self,
-            text="Stock Prices:",
-            bg=main.BGCOLOUR
-        )
-        stock_graph_frame.grid(row=2, column=1, rowspan=3, sticky="snew")
-        
-        # create a figure
-        figure = Figure(facecolor=main.BGCOLOUR)
-
-        # create FigureCanvasTkAgg object
-        self.canvas = FigureCanvasTkAgg(figure, stock_graph_frame)
-        self.canvas = self.canvas.get_tk_widget()
-        self.canvas.pack(fill="both", expand=1)
-
         def create_bar():
+            for child in axes.get_children():
+                if isinstance(child, matplotlib.text.Annotation):
+                    child.remove()
             stocks = list(Stock.Stock.stock_value.keys())
             values = list(Stock.Stock.stock_value.values())
-
-            self.canvas.pack_forget()
-            figure.clear()
-            self.canvas = FigureCanvasTkAgg(figure, stock_graph_frame)
-            self.canvas = self.canvas.get_tk_widget()
-            self.canvas.pack(fill="both", expand=1)
-
-            # create axes
-            axes = figure.add_subplot()
-            
-            # create the barchart
-            graph = axes.bar(stocks, values, color=['gold', 'silver', 'burlywood', 'lightseagreen', 'navajowhite', 'lightpink'], edgecolor="black")
+            graph[0].set_height(values[0])
+            graph[1].set_height(values[1])
+            graph[2].set_height(values[2])
+            graph[3].set_height(values[3])
+            graph[4].set_height(values[4])
+            graph[5].set_height(values[5])
             axes.bar_label(graph, label_type="edge")
-            axes.set_facecolor(main.BGCOLOUR)
-            axes.set_ylabel('Current Value')
-            axes.axhline(y=1,linewidth=1, color='red')
+            figure.canvas.draw()
 
         def set_action_frame():
             action_frame = tk.LabelFrame(
