@@ -324,6 +324,8 @@ class GameSetup(tk.Frame):
 
         set_action_frame()
 
+        set_curr_player_frame()
+
         ttk.Button(
             master=self,
             text="Back",
