@@ -36,11 +36,12 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * General: Add networking option to allow players to play remotely together
 * General: Add bots?
 
-#### Things To Fix:
+#### Known Bugs:
 
-* Memory usage increases for every page loaded. Every turn adds 2 to 4.5mb to memory. Program glitches after some time. I am unable to fix memory usage issues at this moment.
-* Main Game Page: graph frame slightly changes size in first several rounds.
 * Player name page: Names can be left blank
+* Final results: Winner is not included in player ranking list
+* Main Game: need to destroy widgets before Tkinter reaches internal limit of widgets
+* Stock value: use decimal datatype to prevent floating point rounding errors
 * Overall design needs improvement
 * About page: Needs improvement
 
