@@ -72,35 +72,42 @@ class Game:
         else:
             return tk.NORMAL
 
-    def set_player_frames(self):
+    def set_player_frames(self, left, right):
         #Create number of player frames based on number of players chosen in newgame page
             self.player_grid = []
             for num in range(Game.num_players):
-                widget = tk.LabelFrame(
-                    master=self,
-                    text=f"{Player.Player.players[num].name}:",
-                    bg=main.BGCOLOUR
-                )
+                if num % 2 == 0:
+                    widget = tk.LabelFrame(
+                        master=left,
+                        text=f"{Player.Player.players[num].name}:",
+                        bg=main.BGCOLOUR
+                    )
+                else:
+                    widget = tk.LabelFrame(
+                        master=right,
+                        text=f"{Player.Player.players[num].name}:",
+                        bg=main.BGCOLOUR
+                    )
                 self.player_grid.append(widget)
 
             #display all player frames on page that was just created above
             for num in range(Game.num_players):
                 if num == 0:
-                    self.player_grid[0].grid(row=2, column=0, sticky="nsew")
+                    self.player_grid[0].grid(row=0, sticky="nsew")
                 if num == 1:
-                    self.player_grid[1].grid(row=2, column=2, sticky='nsew')
+                    self.player_grid[1].grid(row=0, sticky='nsew')
                 if num == 2:
-                    self.player_grid[2].grid(row=3, column=0, sticky='nsew')
+                    self.player_grid[2].grid(row=1, sticky='nsew')
                 if num == 3:
-                    self.player_grid[3].grid(row=3, column=2, sticky='nsew')
+                    self.player_grid[3].grid(row=1, sticky='nsew')
                 if num == 4:
-                    self.player_grid[4].grid(row=4, column=0, sticky='nsew')
+                    self.player_grid[4].grid(row=2, sticky='nsew')
                 if num == 5:
-                    self.player_grid[5].grid(row=4, column=2, sticky='nsew')
+                    self.player_grid[5].grid(row=2, sticky='nsew')
                 if num == 6:
-                    self.player_grid[6].grid(row=5, column=0, sticky='nsew')
+                    self.player_grid[6].grid(row=3, sticky='nsew')
                 if num == 7:
-                    self.player_grid[7].grid(row=5, column=2, sticky='nsew')
+                    self.player_grid[7].grid(row=3, sticky='nsew')
             
             #Create all content to populate player frames
             for num in range(Game.num_players):

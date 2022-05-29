@@ -7,7 +7,6 @@ import Player
 import Game
 import Stock
 
-#!remove current player frame and shift all frames up one row
 class EndGame(tk.Frame):
     def __init__(self, parent: main.MainWindow):
         tk.Frame.__init__(self, master=parent, bg=main.BGCOLOUR)
