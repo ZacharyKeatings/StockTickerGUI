@@ -39,8 +39,8 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 #### Known Bugs:
 
 * Player name page: Names can be left blank
+* Main Game: When last player finishes turn on final round, game does not move to End Game. Instead round goes to max_round+1. Players get 1 more turn, then game hangs on last player.
 * Final results: Winner is not included in player ranking list
-* Main Game: need to destroy widgets before Tkinter reaches internal limit of widgets
 * Stock value: use decimal datatype to prevent floating point rounding errors
 * Overall design needs improvement
 * About page: Needs improvement
