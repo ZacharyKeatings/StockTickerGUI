@@ -18,6 +18,7 @@ class Stock:
         '''Called by Dice.roll()
         Decreases share value by Dice.roll() amount'''
         Stock.stock_value[stock] += (amount / 100)
+        Stock.stock_value[stock] = round(Stock.stock_value[stock], 2)
         if Stock.stock_value[stock] > 1.95:
             Stock.double_stock(stock)
 
@@ -25,6 +26,7 @@ class Stock:
         '''Called by Dice.roll()
         Increases share value by Dice.roll() amount'''
         Stock.stock_value[stock] -= (amount / 100)
+        Stock.stock_value[stock] = round(Stock.stock_value[stock], 2)
         if Stock.stock_value[stock] < .05:
             Stock.split_stock(stock)
 
@@ -33,10 +35,10 @@ class Stock:
         payout based on formula:
         player share amount * Dice.roll() amount%'''
         dividend = (amount / 100)
+        dividend = round(dividend, 2)
         if Stock.stock_value[stock] >= 1:
             for i, v in enumerate(Player.Player.players):
                 bonus = Player.Player.players[i].stocks[stock] * dividend
-                bonus = int(bonus)
                 Player.Player.players[i].money += bonus
                 Player.Player.players[i].money = int(Player.Player.players[i].money)
                 if bonus > 0:

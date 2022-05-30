@@ -116,9 +116,21 @@ class EndGame(tk.Frame):
         results_frame.grid_columnconfigure(2, weight=1)
         results_frame.grid(row=2, column=1, sticky="nsew")
 
+        left_stats_frame = tk.Frame(
+            master=self,
+            bg=main.BGCOLOUR
+        )
+        left_stats_frame.grid(row=2, column=0, rowspan=4, sticky='snew')
+
+        right_stats_frame = tk.Frame(
+            master=self,
+            bg=main.BGCOLOUR
+        )
+        right_stats_frame.grid(row=2, column=2, rowspan=4, sticky='snew')
+
         end_loop()
 
-        Game.Game.set_player_frames(self)
+        Game.Game.set_player_frames(self, left_stats_frame, right_stats_frame)
 
         ttk.Button(
             master=self,
