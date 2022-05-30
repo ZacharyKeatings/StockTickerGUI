@@ -30,8 +30,8 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 #### To-Do:
 
 * Main Game Page: Add option to save game
-* Main Game Page: Add button to roll the dice -> Create dice roll animation to go with it
 * Main Menu: Add option to load game
+* Main Game Page: Add button to roll the dice -> Create dice roll animation to go with it
 * Main Menu: Add highscore list organized by number of rounds played
 * General: Add networking option to allow players to play remotely together
 * General: Add bots?
@@ -39,9 +39,7 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 #### Known Bugs:
 
 * Player name page: Names can be left blank
-* Main Game: When last player finishes turn on final round, game does not move to End Game. Instead round goes to max_round+1. Players get 1 more turn, then game hangs on last player.
 * Final results: Winner is not included in player ranking list
-* Stock value: use decimal datatype to prevent floating point rounding errors
 * Overall design needs improvement
 * About page: Needs improvement
 
