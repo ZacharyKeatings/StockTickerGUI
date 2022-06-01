@@ -3,7 +3,9 @@ from tkinter import ttk
 import main
 import Stock
 import NewGame
+import MainGame
 import AboutPage
+import Game
 
 class MainMenu(tk.Frame):
 
@@ -32,8 +34,8 @@ class MainMenu(tk.Frame):
         ttk.Button(
             master=self,
             text="Load Game",
-            # command = self.parent.switch_to_load_game, 
-            state=tk.DISABLED
+            command = lambda: [Game.Game.load('Game'), self.parent.switch_to(target=MainGame.MainGame(parent=self.parent))], 
+            state=tk.NORMAL
         ).grid(row=3, column=0, columnspan=2, sticky="sew")
         ttk.Button(
             master=self,

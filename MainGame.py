@@ -472,3 +472,8 @@ class MainGame(tk.Frame):
             text="Quit",
             command=exit
         ).grid(row=8, column=0, columnspan=3, sticky="sew")
+        ttk.Button(
+            master=self,
+            text="Save Game",
+            command=Game.Game.save('game')
+        ).grid(row=9, column=0, columnspan=3, sticky="sew")
