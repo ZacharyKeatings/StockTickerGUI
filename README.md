@@ -19,6 +19,7 @@ Number of rounds: 1 - 100
 * Stocks can pay dividends, double, and split.
 * Graph updates with current stock value each turn.
 * Rounds get tracked and results screen displays player scores.
+* Games can be saved and loaded in between program sessions.
 * About page with short description of game.
 * The 'Quit' button closes the program.
 
@@ -29,19 +30,18 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### To-Do:
 
-* Main Game Page: Add option to save game
-* Main Menu: Add option to load game
 * Main Game Page: Add button to roll the dice -> Create dice roll animation to go with it
 * End Game: Show currently held money before selling off shares
 * End Game: Add tie condition if 2 or more players have same amount of money
 * Main Menu: Add highscore list organized by number of rounds played
+* Overall design needs improvement
+* About page: Needs improvement
 * General: Add networking option to allow players to play remotely together
 * General: Add bots?
 
 #### Known Bugs:
 
-* Overall design needs improvement
-* About page: Needs improvement
+* 
 
 #### Inspiration:
 
