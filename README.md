@@ -32,14 +32,22 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 * Main Game Page: Add option to save game
 * Main Menu: Add option to load game
 * Main Game Page: Add button to roll the dice -> Create dice roll animation to go with it
+<<<<<<< HEAD
 * End Game: Show currently held money before selling off shares
 * End Game: Add tie condition if 2 or more players have same amount of money
+=======
+* Final Results: If 2 players have same amount of money, add a tie condition
+>>>>>>> 098e9d448daf916b1277adecbe7c8bf1d586e35d
 * Main Menu: Add highscore list organized by number of rounds played
 * General: Add networking option to allow players to play remotely together
 * General: Add bots?
 
 #### Known Bugs:
 
+<<<<<<< HEAD
+=======
+* Final results: Winner is not included in player ranking list
+>>>>>>> 098e9d448daf916b1277adecbe7c8bf1d586e35d
 * Overall design needs improvement
 * About page: Needs improvement
 
