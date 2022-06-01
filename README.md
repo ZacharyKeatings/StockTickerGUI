@@ -41,7 +41,7 @@ This is a GUI version of the console-based Stock Ticker which can be found in th
 
 #### Known Bugs:
 
-* 
+* Dividend payout amount shows floating point number.
 
 #### Inspiration:
 
