@@ -16,7 +16,6 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
-
 class MainGame(tk.Frame):
     def __init__(self, parent: main.MainWindow):
         tk.Frame.__init__(self, master=parent, bg=main.BGCOLOUR)

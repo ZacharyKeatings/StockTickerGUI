@@ -31,22 +31,18 @@ class EndGame(tk.Frame):
                 name = Player.Player.players[i].name
                 player_value = {name : money}
                 ranking.update(player_value)
+
             sorted_ranking = dict(sorted(ranking.items(), key=operator.itemgetter(1), reverse=True))
             winner = []
             for index, name in enumerate(sorted_ranking):
                 if index == 0:
                     winner.append(name)
                     winner.append(sorted_ranking[name])
-                    tk.Label(
-                        master=final_frame,
-                        text=f"{index}. {name} has ${sorted_ranking[name]}",
-                        bg=main.BGCOLOUR
-                    ).grid(row=index, column=1, sticky='new')
                 tk.Label(
                     master=final_frame,
-                    text=f"{index}. {name} has ${sorted_ranking[name]}",
+                    text=f"{index+1}. {name} has ${sorted_ranking[name]}",
                     bg=main.BGCOLOUR
-                ).grid(row=index, column=1, sticky='new')
+                ).grid(row=index+1, column=1, sticky='new')
 
             tk.Label(
                 master=final_frame,
@@ -64,7 +60,7 @@ class EndGame(tk.Frame):
                     Player.Player.sell_stock(name, quantity)
                     tk.Label(
                         master=results_frame,
-                        text=f"Value of {name} shares: {Stock.Stock.get_value(name, quantity)}",
+                        text=f"Value of {name} shares: ${Stock.Stock.get_value(name, quantity)}",
                         bg=main.BGCOLOUR
                     ).grid(row=index, column=1, sticky="snew")
                 #display curr_players money in tk.Label
