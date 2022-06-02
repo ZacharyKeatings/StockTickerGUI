@@ -6,6 +6,7 @@ import NewGame
 import MainGame
 import AboutPage
 import Game
+import shelve
 
 class MainMenu(tk.Frame):
 
@@ -14,6 +15,16 @@ class MainMenu(tk.Frame):
         self.parent = parent
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
+
+        def loadgame():
+            with shelve.open('game') as file:
+                print(file)
+                print(f"{file['stocks']=}")
+                print(f"{file['players'][0].name=}")
+                print(f"{file['curr_round']=}")
+                print(f"{file['max_rounds']=}")
+                print(f"{file['curr_player']=}")
+                print(f"{file['num_players']=}")
 
         tk.Label(
             master=self,
@@ -40,8 +51,8 @@ class MainMenu(tk.Frame):
         ttk.Button(
             master=self,
             text="Highscores",
-            # command = self.parent.switch_to_highscores, 
-            state=tk.DISABLED
+            command = loadgame, 
+            state=tk.NORMAL
         ).grid(row=4, column=0, columnspan=2, sticky="sew")
         ttk.Button(
             master=self,

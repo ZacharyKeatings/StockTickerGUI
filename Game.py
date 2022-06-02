@@ -152,7 +152,7 @@ class Game:
         '''save current state to BAK/DAT/DIR file. Can name a save file. Called from MainGame.
         Use shelve to save data.
         Data saved includes: Stock.stock_values, Player.players, Game.curr_round, 
-        Game.max_rounds, Game.curr_player, Game.turn, Game.num_players'''
+        Game.max_rounds, Game.curr_player, Game.num_players'''
         with shelve.open(filename) as save_file:
             save_file['stocks'] = Stock.Stock.stock_value
             save_file['players'] = Player.Player.players
@@ -160,12 +160,13 @@ class Game:
             save_file['max_rounds'] = Game.max_rounds
             save_file['curr_player'] = Game.curr_player
             save_file['num_players'] = Game.num_players
+        save_file.close()
 
     def load(filename):
         '''Load game from .txt file. Called from MainMenu. Switches to LoadPage.
         Use shelve to load data.
         Data loaded includes: Stock.stock_values, Player.players, Game.curr_round, 
-        Game.max_rounds, Game.curr_player, Game.turn, Game.num_players'''
+        Game.max_rounds, Game.curr_player, Game.num_players'''
         with shelve.open(filename) as save_file:
             Stock.Stock.stock_value = save_file['stocks']
             Player.Player.players = save_file['players']
@@ -173,3 +174,4 @@ class Game:
             Game.max_rounds = save_file['max_rounds']
             Game.curr_player = save_file['curr_player']
             Game.num_players = save_file['num_players']
+        save_file.close()

@@ -462,6 +462,17 @@ class MainGame(tk.Frame):
                     buy_frame.grid_forget()
                     set_action_frame()
 
+        def loadgame():
+            import shelve
+            with shelve.open('game') as file:
+                print(file)
+                print(f"{file['stocks']=}")
+                print(f"{file['players'][0].name=}")
+                print(f"{file['curr_round']=}")
+                print(f"{file['max_rounds']=}")
+                print(f"{file['curr_player']=}")
+                print(f"{file['num_players']=}")
+
         ttk.Button(
             master=self,
             text="Main Menu",
@@ -475,5 +486,5 @@ class MainGame(tk.Frame):
         ttk.Button(
             master=self,
             text="Save Game",
-            command=Game.Game.save('game')
+            command=lambda: [Game.Game.save('game'), loadgame()]
         ).grid(row=9, column=0, columnspan=3, sticky="sew")
