@@ -163,7 +163,7 @@ class Game:
         save_file.close()
 
     def load(filename):
-        '''Load game from .txt file. Called from MainMenu. Switches to LoadPage.
+        '''Load game from BAK/DAT/DIRvirtualenv workon file. Called from MainMenu. Switches to LoadPage.
         Use shelve to load data.
         Data loaded includes: Stock.stock_values, Player.players, Game.curr_round, 
         Game.max_rounds, Game.curr_player, Game.num_players'''
