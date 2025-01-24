@@ -23,6 +23,10 @@ Number of rounds: 1 - 100
 * About page with short description of game.
 * The 'Quit' button closes the program.
 
+#### Project Requirements:
+
+Ensure you have tkinter and matplotlib installed before running Stock Ticker.
+
 #### Project Status:
 
 This is an ongoing project which will be updated as I learn more about Tkinter.
